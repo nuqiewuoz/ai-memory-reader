@@ -68,6 +68,37 @@
 - Plan 由 Qun 确认
 - 开始 M1 开发
 
+### 2026-03-26 — 渲染升级 + README + Bug 修复
+
+**改进内容：**
+
+1. **Markdown 渲染引擎升级**：替换自定义 `MarkdownRenderer`（基于 Apple swift-markdown + MarkupVisitor）为 [MarkdownUI](https://github.com/gonzalezreal/swift-markdown-ui)
+   - 使用 GitHub 主题，开箱即用的高质量渲染
+   - 代码块、表格、列表、引用等全面支持
+   - 删除 `MarkdownRenderer.swift`，移除 swift-markdown 依赖
+   - 同时修复了 M1 review 中发现的 `visitListItem` trimming 丢失富文本格式的 bug（整个自定义渲染器已移除）
+
+2. **SF Symbols 图标替换 emoji**：
+   - Claude/OpenClaw: `brain.head.profile`（橙色）
+   - OpenAI/Codex: `chevron.left.forwardslash.chevron.right`（绿色）
+   - Gemini: `sparkles`（蓝色）
+   - Local Files: `folder`（灰色）
+
+3. **新增 README.md**：项目说明、功能列表、安装指南、技术栈、路线图
+
+4. **修复 FileWatcher 并发警告**：`CallbackWrapper` 标记为 `@unchecked Sendable`
+
+文件变更：
+- 删除 `MarkdownRenderer.swift`
+- 重写 `DetailView.swift`（使用 MarkdownUI）
+- 重写 `AISource.swift`（SF Symbols）
+- 更新 `SidebarView.swift`（SF Symbols）
+- 更新 `FileWatcher.swift`（Sendable 修复）
+- 更新 `project.yml`（swift-markdown → swift-markdown-ui）
+- 新增 `README.md`
+
+---
+
 ### 2026-03-26 — M2 完成 ✅
 **AI 源自动发现 + 预置路径**
 

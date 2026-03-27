@@ -1,3 +1,4 @@
+import MarkdownUI
 import SwiftUI
 
 struct DetailView: View {
@@ -6,7 +7,7 @@ struct DetailView: View {
     var body: some View {
         Group {
             if let file = appState.selectedFile, !file.isDirectory {
-                MarkdownDetailView(fileNode: file)
+                MarkdownDetailView(fileNode: file, fileChangeToken: appState.fileChangeToken)
             } else {
                 placeholderView
             }
@@ -28,8 +29,8 @@ struct DetailView: View {
 
 struct MarkdownDetailView: View {
     let fileNode: FileNode
-    @State private var content: AttributedString?
-    @State private var rawContent: String = ""
+    let fileChangeToken: Int
+    @State private var rawContent: String?
     @State private var loadError: String?
 
     var body: some View {
@@ -41,8 +42,8 @@ struct MarkdownDetailView: View {
                 Text(fileNode.name)
                     .font(.headline)
                 Spacer()
-                if !rawContent.isEmpty {
-                    Text("\(rawContent.count) chars")
+                if let raw = rawContent {
+                    Text("\(raw.count) chars")
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
@@ -56,9 +57,11 @@ struct MarkdownDetailView: View {
             // Content
             if let error = loadError {
                 errorView(error)
-            } else if let content {
+            } else if let raw = rawContent {
                 ScrollView {
-                    Text(content)
+                    Markdown(raw)
+                        .markdownTheme(.gitHub)
+                        .markdownCodeSyntaxHighlighter(.plain)
                         .textSelection(.enabled)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(24)
@@ -71,11 +74,13 @@ struct MarkdownDetailView: View {
         .task(id: fileNode.id) {
             await loadFile()
         }
+        .onChange(of: fileChangeToken) { _, _ in
+            Task { await loadFile() }
+        }
     }
 
     private func loadFile() async {
         loadError = nil
-        content = nil
         do {
             let data = try Data(contentsOf: fileNode.url)
             guard let text = String(data: data, encoding: .utf8) else {
@@ -83,7 +88,6 @@ struct MarkdownDetailView: View {
                 return
             }
             rawContent = text
-            content = MarkdownRenderer.render(text)
         } catch {
             loadError = error.localizedDescription
         }
@@ -102,4 +106,16 @@ struct MarkdownDetailView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
+}
+
+// MARK: - Plain code syntax highlighter (no external dependency)
+
+struct PlainCodeSyntaxHighlighter: CodeSyntaxHighlighter {
+    func highlightCode(_ code: String, language: String?) -> Text {
+        Text(code)
+    }
+}
+
+extension CodeSyntaxHighlighter where Self == PlainCodeSyntaxHighlighter {
+    static var plain: PlainCodeSyntaxHighlighter { PlainCodeSyntaxHighlighter() }
 }

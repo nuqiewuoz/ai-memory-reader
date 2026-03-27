@@ -10,8 +10,15 @@ struct SidebarView: View {
 
             Divider()
 
-            // File tree
-            if let root = appState.rootNode {
+            // Search bar
+            searchBar
+
+            Divider()
+
+            // Search results or file tree
+            if !appState.searchQuery.isEmpty {
+                searchResultsList
+            } else if let root = appState.rootNode {
                 List(selection: Bindable(appState).selectedFile) {
                     if let children = root.children {
                         ForEach(children) { node in
@@ -43,7 +50,7 @@ struct SidebarView: View {
 
     private var aiSourcesSection: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("AI Sources")
+            Text("Sources")
                 .font(.subheadline)
                 .fontWeight(.medium)
                 .foregroundColor(.secondary)
@@ -59,8 +66,10 @@ struct SidebarView: View {
 
             // Local Files option
             HStack(spacing: 8) {
-                Text("📂")
-                    .font(.title3)
+                Image(systemName: "folder")
+                    .font(.system(size: 16))
+                    .foregroundColor(.secondary)
+                    .frame(width: 22)
                 Text("Local Files…")
                     .font(.system(size: 13))
                 Spacer()
@@ -90,6 +99,80 @@ struct SidebarView: View {
         .padding(.bottom, 8)
     }
 
+    private var searchBar: some View {
+        HStack(spacing: 6) {
+            Image(systemName: "magnifyingglass")
+                .foregroundColor(.secondary)
+                .font(.system(size: 12))
+
+            TextField("Search markdown files…", text: Bindable(appState).searchQuery)
+                .textFieldStyle(.plain)
+                .font(.system(size: 12))
+                .onSubmit {
+                    appState.performSearch()
+                }
+                .onChange(of: appState.searchQuery) { _, newValue in
+                    if newValue.isEmpty {
+                        appState.searchResults = []
+                    } else {
+                        // Debounced search: search as you type
+                        appState.performSearch()
+                    }
+                }
+
+            if !appState.searchQuery.isEmpty {
+                Button {
+                    appState.searchQuery = ""
+                    appState.searchResults = []
+                } label: {
+                    Image(systemName: "xmark.circle.fill")
+                        .foregroundColor(.secondary)
+                        .font(.system(size: 12))
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+    }
+
+    private var searchResultsList: some View {
+        Group {
+            if appState.isSearching {
+                VStack {
+                    Spacer()
+                    ProgressView("Searching…")
+                        .font(.caption)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if appState.searchResults.isEmpty {
+                VStack(spacing: 8) {
+                    Spacer()
+                    Image(systemName: "magnifyingglass")
+                        .font(.system(size: 28))
+                        .foregroundColor(.secondary)
+                    Text("No results found")
+                        .font(.caption)
+                        .foregroundColor(.secondary)
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                List {
+                    ForEach(appState.searchResults) { result in
+                        SearchResultRow(result: result)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                appState.selectSearchResult(result)
+                            }
+                    }
+                }
+                .listStyle(.sidebar)
+            }
+        }
+    }
+
     private var emptyState: some View {
         VStack(spacing: 12) {
             Spacer()
@@ -108,14 +191,45 @@ struct SidebarView: View {
     }
 }
 
+// MARK: - Search Result Row
+
+struct SearchResultRow: View {
+    let result: SearchResult
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 4) {
+            HStack(spacing: 4) {
+                Image(systemName: "doc.text")
+                    .foregroundColor(.accentColor)
+                    .font(.system(size: 11))
+                Text(result.fileNode.name)
+                    .font(.system(size: 12, weight: .medium))
+                    .lineLimit(1)
+            }
+            Text(result.matchedLine)
+                .font(.system(size: 11))
+                .foregroundColor(.secondary)
+                .lineLimit(2)
+            Text("Line \(result.lineNumber)")
+                .font(.system(size: 10))
+                .foregroundColor(.secondary.opacity(0.6))
+        }
+        .padding(.vertical, 2)
+    }
+}
+
+// MARK: - AI Source Row
+
 struct AISourceRow: View {
     let source: AISource
     let isSelected: Bool
 
     var body: some View {
         HStack(spacing: 8) {
-            Text(source.icon)
-                .font(.title3)
+            Image(systemName: source.iconName)
+                .font(.system(size: 16))
+                .foregroundColor(source.color)
+                .frame(width: 22)
             Text(source.name)
                 .font(.system(size: 13))
                 .lineLimit(1)
@@ -139,6 +253,8 @@ struct AISourceRow: View {
         .padding(.horizontal, 8)
     }
 }
+
+// MARK: - File Node View
 
 struct FileNodeView: View {
     @Environment(AppState.self) private var appState

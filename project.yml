@@ -10,9 +10,9 @@ settings:
     SWIFT_VERSION: "6.0"
     MACOSX_DEPLOYMENT_TARGET: "15.0"
 packages:
-  swift-markdown:
-    url: https://github.com/apple/swift-markdown
-    from: "0.5.0"
+  swift-markdown-ui:
+    url: https://github.com/gonzalezreal/swift-markdown-ui
+    from: "2.4.0"
 targets:
   AIMemoryReader:
     type: application
@@ -30,5 +30,5 @@ targets:
         GENERATE_INFOPLIST_FILE: YES
         SWIFT_STRICT_CONCURRENCY: complete
     dependencies:
-      - package: swift-markdown
-        product: Markdown
+      - package: swift-markdown-ui
+        product: MarkdownUI

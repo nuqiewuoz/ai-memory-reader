@@ -3,7 +3,7 @@ import SwiftUI
 struct AISource: Identifiable, Hashable {
     let id: String
     let name: String
-    let icon: String  // emoji
+    let iconName: String  // SF Symbol name
     let color: Color
     let path: String  // relative to home directory
 
@@ -32,24 +32,10 @@ extension AISource {
     static let allSources: [AISource] = [
         AISource(
             id: "openclaw",
-            name: "Claude / OpenClaw",
-            icon: "🦞",
+            name: "OpenClaw",
+            iconName: "brain.head.profile",
             color: .orange,
             path: ".openclaw/workspace"
-        ),
-        AISource(
-            id: "codex",
-            name: "OpenAI / Codex",
-            icon: "🤖",
-            color: .green,
-            path: ".codex"
-        ),
-        AISource(
-            id: "gemini",
-            name: "Gemini",
-            icon: "✨",
-            color: .blue,
-            path: ".gemini"
         ),
     ]
 

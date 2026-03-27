@@ -16,6 +16,27 @@ final class AppState {
     /// Today's memory file node, if the current source has one
     var todayFileNode: FileNode?
 
+    // MARK: - Search
+
+    var searchQuery: String = ""
+    var searchResults: [SearchResult] = []
+    var isSearching: Bool = false
+
+    // MARK: - File Watching
+
+    private var activeStream: FSEventStreamRef?
+    private var fsObserver: Any?
+
+    /// Incremented on each file-system change so views can react
+    var fileChangeToken: Int = 0
+
+    // MARK: - Recent Folders
+
+    var recentFolders: [String] {
+        get { UserDefaults.standard.stringArray(forKey: "recentFolders") ?? [] }
+        set { UserDefaults.standard.set(newValue, forKey: "recentFolders") }
+    }
+
     init() {
         availableSources = AISource.detectAvailable()
         selectedSourceID = UserDefaults.standard.string(forKey: "lastSelectedSourceID")
@@ -30,6 +51,17 @@ final class AppState {
             return
         }
 
+        // Try to restore local folder
+        if selectedSourceID == "local",
+           let savedPath = UserDefaults.standard.string(forKey: "lastLocalFolderPath") {
+            let url = URL(fileURLWithPath: savedPath)
+            if FileManager.default.fileExists(atPath: savedPath) {
+                loadDirectory(url)
+                startWatching(url)
+                return
+            }
+        }
+
         // Fallback: pick first available source
         if let first = availableSources.first {
             selectSource(first)
@@ -39,22 +71,43 @@ final class AppState {
 
     func selectSource(_ source: AISource) {
         selectedSourceID = source.id
+        searchQuery = ""
+        searchResults = []
         loadDirectory(source.url)
         autoSelectTodayFile(for: source)
+        startWatching(source.url)
     }
 
     func openFolder() {
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true
-        panel.canChooseFiles = false
+        panel.canChooseFiles = true
+        panel.allowedContentTypes = [.init(filenameExtension: "md")!]
         panel.allowsMultipleSelection = false
-        panel.message = "Select a folder containing markdown files"
+        panel.message = "Select a folder or markdown file"
         panel.prompt = "Open"
 
         if panel.runModal() == .OK, let url = panel.url {
-            selectedSourceID = "local"
-            UserDefaults.standard.set(url.path(percentEncoded: false), forKey: "lastLocalFolderPath")
-            loadDirectory(url)
+            if url.hasDirectoryPath {
+                selectedSourceID = "local"
+                UserDefaults.standard.set(url.path(percentEncoded: false), forKey: "lastLocalFolderPath")
+                addRecentFolder(url.path(percentEncoded: false))
+                loadDirectory(url)
+                startWatching(url)
+            } else {
+                // Single file selected - load its parent directory and select the file
+                let parentDir = url.deletingLastPathComponent()
+                selectedSourceID = "local"
+                UserDefaults.standard.set(parentDir.path(percentEncoded: false), forKey: "lastLocalFolderPath")
+                addRecentFolder(parentDir.path(percentEncoded: false))
+                loadDirectory(parentDir)
+                startWatching(parentDir)
+                // Find and select the opened file
+                if let node = findNode(url: url, in: rootNode) {
+                    selectedFile = node
+                    expandPathTo(node: node)
+                }
+            }
         }
     }
 
@@ -66,18 +119,100 @@ final class AppState {
         todayFileNode = nil
     }
 
+    // MARK: - Search
+
+    func performSearch() {
+        guard let rootURL, !searchQuery.isEmpty else {
+            searchResults = []
+            return
+        }
+        isSearching = true
+        let query = searchQuery
+        let url = rootURL
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let results = SearchService.search(query: query, in: url)
+            DispatchQueue.main.async {
+                self?.searchResults = results
+                self?.isSearching = false
+            }
+        }
+    }
+
+    func selectSearchResult(_ result: SearchResult) {
+        // Find or create matching node in file tree
+        if let node = findNode(url: result.fileNode.url, in: rootNode) {
+            expandPathTo(node: node)
+            selectedFile = node
+        } else {
+            // Node not in tree, use the search result's node directly
+            selectedFile = result.fileNode
+        }
+    }
+
+    // MARK: - File Watching
+
+    private func startWatching(_ url: URL) {
+        fileWatcher?.stop()
+        fileWatcher = FileWatcher(path: url.path(percentEncoded: false)) { [weak self] in
+            self?.handleFileSystemChange()
+        }
+        fileWatcher?.start()
+    }
+
+    private func handleFileSystemChange() {
+        guard let rootURL else { return }
+
+        // Remember current selection
+        let previousSelectedURL = selectedFile?.url
+
+        // Rebuild file tree
+        rootNode = FileTreeBuilder.buildTree(at: rootURL)
+        rootNode?.isExpanded = true
+
+        // Re-detect today file
+        if let sourceID = selectedSourceID,
+           let source = availableSources.first(where: { $0.id == sourceID }) {
+            autoSelectTodayFile(for: source)
+        }
+
+        // Try to restore selection
+        if let prevURL = previousSelectedURL,
+           let node = findNode(url: prevURL, in: rootNode) {
+            expandPathTo(node: node)
+            selectedFile = node
+        }
+
+        // Increment change token so detail view can reload
+        fileChangeToken += 1
+    }
+
+    // MARK: - Recent Folders
+
+    private func addRecentFolder(_ path: String) {
+        var folders = recentFolders
+        folders.removeAll { $0 == path }
+        folders.insert(path, at: 0)
+        if folders.count > 5 {
+            folders = Array(folders.prefix(5))
+        }
+        recentFolders = folders
+    }
+
+    // MARK: - Today File
+
     /// If the source has a memory/YYYY-MM-DD.md for today, find it in the tree and highlight it
     private func autoSelectTodayFile(for source: AISource) {
         guard let todayURL = source.todayMemoryFile else { return }
         if let node = findNode(url: todayURL, in: rootNode) {
             todayFileNode = node
-            // Expand parent directories to make it visible
             expandPathTo(node: node)
             selectedFile = node
         }
     }
 
-    private func findNode(url: URL, in node: FileNode?) -> FileNode? {
+    // MARK: - Tree Navigation
+
+    func findNode(url: URL, in node: FileNode?) -> FileNode? {
         guard let node else { return nil }
         if node.url == url { return node }
         if let children = node.children {
@@ -90,7 +225,7 @@ final class AppState {
         return nil
     }
 
-    private func expandPathTo(node: FileNode) {
+    func expandPathTo(node: FileNode) {
         guard let root = rootNode else { return }
         _ = expandPathTo(target: node.url, in: root)
     }
