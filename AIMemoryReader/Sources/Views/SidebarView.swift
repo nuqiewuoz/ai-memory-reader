@@ -1,6 +1,19 @@
 #if os(macOS)
 import SwiftUI
 
+// MARK: - Conditional View Modifier
+
+extension View {
+    @ViewBuilder
+    func `if`<Content: View>(_ condition: Bool, transform: (Self) -> Content) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
+}
+
 struct SidebarView: View {
     @Environment(AppState.self) private var appState
     @FocusState private var isSearchFocused: Bool
@@ -58,17 +71,38 @@ struct SidebarView: View {
 
     private var aiSourcesSection: some View {
         VStack(alignment: .leading, spacing: 4) {
-            Text("Sources")
-                .font(.subheadline)
-                .fontWeight(.medium)
-                .foregroundColor(.secondary)
-                .padding(.horizontal, 16)
-                .padding(.top, 8)
+            HStack {
+                Text("Sources")
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundColor(.secondary)
+                Spacer()
+                Button {
+                    appState.addCustomSource()
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.secondary)
+                }
+                .buttonStyle(.plain)
+                .help("Add custom AI source directory")
+            }
+            .padding(.horizontal, 16)
+            .padding(.top, 8)
 
             ForEach(appState.availableSources) { source in
                 AISourceRow(source: source, isSelected: appState.selectedSourceID == source.id)
                     .onTapGesture {
                         appState.selectSource(source)
+                    }
+                    .if(source.isCustom) { view in
+                        view.contextMenu {
+                            Button(role: .destructive) {
+                                appState.removeCustomSource(source)
+                            } label: {
+                                Label("Remove Source", systemImage: "trash")
+                            }
+                        }
                     }
             }
 

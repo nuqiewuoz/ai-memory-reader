@@ -50,8 +50,56 @@ final class AppState {
     var pendingURLHeading: String?
 
     init() {
-        availableSources = AISource.detectAvailable()
+        availableSources = AISource.detectAllAvailable()
         selectedSourceID = UserDefaults.standard.string(forKey: "lastSelectedSourceID")
+    }
+
+    /// Refresh the available sources list (after adding/removing custom sources)
+    func refreshSources() {
+        let previousID = selectedSourceID
+        availableSources = AISource.detectAllAvailable()
+        // If current selection was removed, clear it
+        if let id = previousID, !availableSources.contains(where: { $0.id == id }) {
+            selectedSourceID = nil
+        }
+    }
+
+    /// Add a custom AI source directory via folder picker
+    #if os(macOS)
+    func addCustomSource() {
+        let panel = NSOpenPanel()
+        panel.canChooseDirectories = true
+        panel.canChooseFiles = false
+        panel.allowsMultipleSelection = false
+        panel.message = "Select an AI memory/config directory"
+        panel.prompt = "Add Source"
+
+        if panel.runModal() == .OK, let url = panel.url {
+            AISource.addCustomSource(path: url.path(percentEncoded: false))
+            refreshSources()
+            // Auto-select the newly added source
+            if let newSource = availableSources.first(where: { $0.id == "custom:\(url.path(percentEncoded: false))" }) {
+                selectSource(newSource)
+            }
+        }
+    }
+    #endif
+
+    /// Remove a custom AI source
+    func removeCustomSource(_ source: AISource) {
+        guard source.isCustom else { return }
+        AISource.removeCustomSource(path: source.path)
+        refreshSources()
+        // If we removed the selected source, select something else
+        if selectedSourceID == source.id {
+            selectedSourceID = nil
+            if let first = availableSources.first {
+                selectSource(first)
+            } else {
+                rootNode = nil
+                rootURL = nil
+            }
+        }
     }
 
     /// Called on launch to restore last source or pick the first available
