@@ -68,6 +68,30 @@
 - Plan 由 Qun 确认
 - 开始 M1 开发
 
+### 2026-03-26 — M2 完成 ✅
+**AI 源自动发现 + 预置路径**
+
+已实现功能：
+- `AISource` 模型，预置三个 AI 源：
+  - Claude/OpenClaw: `~/.openclaw/workspace/`（🦞 橙色）
+  - OpenAI/Codex: `~/.codex/`（🤖 绿色）
+  - Gemini: `~/.gemini/`（✨ 蓝色）
+- 启动时自动检测磁盘上哪些 AI 源存在
+- 侧边栏顶部显示已检测到的 AI 源，带图标 + 名称 + 选中高亮
+- 点击 AI 源加载其目录到文件树
+- "Local Files…" 选项打开文件夹选择器（保留原有 ⌘O 行为）
+- 通过 UserDefaults 记住上次选择的源，跨启动保持
+- Today 面板：如果当前源有 `memory/YYYY-MM-DD.md` 今日文件，自动展开并选中，文件树中显示 "Today" 标签
+- 每个 AI 源行右侧显示小圆点指示今日记忆文件是否存在
+
+新增文件：
+- `AIMemoryReader/Sources/Models/AISource.swift` — AI 源模型
+
+修改文件：
+- `AppState.swift` — 新增源管理、持久化、今日文件自动选中
+- `SidebarView.swift` — 重构为 AI 源区 + 文件树区 + AISourceRow 组件
+- `ContentView.swift` — 使用 `restoreOrAutoSelect()` 替代硬编码自动加载
+
 ### 2026-03-26 — M1 完成 ✅
 **基础框架 + 文件树 + Markdown 渲染**
 
