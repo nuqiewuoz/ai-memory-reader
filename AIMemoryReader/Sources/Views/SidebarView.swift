@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SidebarView: View {
     @Environment(AppState.self) private var appState
+    @FocusState private var isSearchFocused: Bool
 
     var body: some View {
         VStack(spacing: 0) {
@@ -35,6 +36,12 @@ struct SidebarView: View {
             headerView
         }
         .frame(minWidth: 220)
+        .onChange(of: appState.focusSearch) { _, newValue in
+            if newValue {
+                isSearchFocused = true
+                appState.focusSearch = false
+            }
+        }
     }
 
     private var headerView: some View {
@@ -88,6 +95,11 @@ struct SidebarView: View {
                 appState.openFolder()
             }
 
+            // Recent Folders
+            if !appState.recentFolders.isEmpty {
+                recentFoldersSection
+            }
+
             if appState.availableSources.isEmpty {
                 Text("No AI sources detected")
                     .font(.caption)
@@ -99,6 +111,40 @@ struct SidebarView: View {
         .padding(.bottom, 8)
     }
 
+    private var recentFoldersSection: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text("Recent")
+                .font(.caption)
+                .foregroundColor(.secondary.opacity(0.7))
+                .padding(.horizontal, 16)
+                .padding(.top, 6)
+
+            ForEach(appState.recentFolders, id: \.self) { path in
+                let url = URL(fileURLWithPath: path)
+                HStack(spacing: 6) {
+                    Image(systemName: "clock")
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary.opacity(0.6))
+                        .frame(width: 18)
+                    Text(url.lastPathComponent)
+                        .font(.system(size: 11))
+                        .foregroundColor(.secondary)
+                        .lineLimit(1)
+                        .truncationMode(.middle)
+                    Spacer()
+                }
+                .padding(.horizontal, 16)
+                .padding(.vertical, 3)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    appState.selectedSourceID = "local"
+                    UserDefaults.standard.set(path, forKey: "lastLocalFolderPath")
+                    appState.loadDirectory(url)
+                }
+            }
+        }
+    }
+
     private var searchBar: some View {
         HStack(spacing: 6) {
             Image(systemName: "magnifyingglass")
@@ -108,6 +154,7 @@ struct SidebarView: View {
             TextField("Search markdown files…", text: Bindable(appState).searchQuery)
                 .textFieldStyle(.plain)
                 .font(.system(size: 12))
+                .focused($isSearchFocused)
                 .onSubmit {
                     appState.performSearch()
                 }
@@ -115,7 +162,6 @@ struct SidebarView: View {
                     if newValue.isEmpty {
                         appState.searchResults = []
                     } else {
-                        // Debounced search: search as you type
                         appState.performSearch()
                     }
                 }

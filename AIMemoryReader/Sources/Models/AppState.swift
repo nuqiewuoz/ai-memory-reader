@@ -22,6 +22,7 @@ final class AppState {
     var searchQuery: String = ""
     var searchResults: [SearchResult] = []
     var isSearching: Bool = false
+    var focusSearch: Bool = false
 
     // MARK: - File Watching
 
