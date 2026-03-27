@@ -192,6 +192,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
 // MARK: - iOS Detail View
 
 struct iOSDetailView: View {
+    @Environment(AppState.self) private var appState
     let fileNode: FileNode
     @State private var rawContent: String?
     @State private var loadError: String?
@@ -242,6 +243,14 @@ struct iOSDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task(id: fileNode.id) {
             await loadFile()
+        }
+        .onChange(of: appState.pendingURLHeading) { _, heading in
+            if let heading, !heading.isEmpty {
+                if let entry = tocEntries.first(where: { $0.title.localizedCaseInsensitiveContains(heading) }) {
+                    scrollTarget = entry.id
+                }
+                appState.pendingURLHeading = nil
+            }
         }
     }
 

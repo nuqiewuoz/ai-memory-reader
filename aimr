@@ -1,0 +1,84 @@
+#!/bin/bash
+# aimr - AI Memory Reader CLI
+# Opens markdown files in AI Memory Reader app via URL scheme
+#
+# Usage:
+#   aimr open /path/to/file.md                    # Open a file
+#   aimr open /path/to/file.md --heading "Title"   # Open file and scroll to heading
+#   aimr open /path/to/file.md -h "Title"          # Short form
+
+set -euo pipefail
+
+usage() {
+    echo "Usage: aimr open <file.md> [--heading|-h <heading>]"
+    echo ""
+    echo "Commands:"
+    echo "  open <file>    Open a markdown file in AI Memory Reader"
+    echo ""
+    echo "Options:"
+    echo "  --heading, -h  Scroll to a specific heading after opening"
+    echo ""
+    echo "Examples:"
+    echo "  aimr open ~/notes/today.md"
+    echo "  aimr open ./README.md --heading \"Installation\""
+    exit 1
+}
+
+if [[ $# -lt 2 ]]; then
+    usage
+fi
+
+command="$1"
+shift
+
+case "$command" in
+    open)
+        file="$1"
+        shift
+
+        # Resolve to absolute path
+        if [[ "$file" != /* ]]; then
+            file="$(cd "$(dirname "$file")" && pwd)/$(basename "$file")"
+        fi
+
+        if [[ ! -f "$file" ]]; then
+            echo "Error: File not found: $file" >&2
+            exit 1
+        fi
+
+        # URL-encode the path
+        encoded_path=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$file'))")
+
+        url="aimemoryreader://open?path=${encoded_path}"
+
+        # Parse optional heading
+        heading=""
+        while [[ $# -gt 0 ]]; do
+            case "$1" in
+                --heading|-h)
+                    if [[ $# -lt 2 ]]; then
+                        echo "Error: --heading requires a value" >&2
+                        exit 1
+                    fi
+                    heading="$2"
+                    shift 2
+                    ;;
+                *)
+                    echo "Unknown option: $1" >&2
+                    usage
+                    ;;
+            esac
+        done
+
+        if [[ -n "$heading" ]]; then
+            encoded_heading=$(python3 -c "import urllib.parse; print(urllib.parse.quote('$heading'))")
+            url="${url}&heading=${encoded_heading}"
+        fi
+
+        open "$url"
+        ;;
+    *)
+        echo "Unknown command: $command" >&2
+        usage
+        ;;
+esac

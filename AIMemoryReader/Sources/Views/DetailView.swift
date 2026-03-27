@@ -29,6 +29,7 @@ struct DetailView: View {
 }
 
 struct MarkdownDetailView: View {
+    @Environment(AppState.self) private var appState
     let fileNode: FileNode
     let fileChangeToken: Int
     @State private var rawContent: String?
@@ -82,6 +83,15 @@ struct MarkdownDetailView: View {
         .onReceive(NotificationCenter.default.publisher(for: .editorManualSave)) { _ in
             if isEditMode {
                 saveIfNeeded()
+            }
+        }
+        .onChange(of: appState.pendingURLHeading) { _, heading in
+            if let heading, !heading.isEmpty {
+                // Find matching TOC entry and scroll to it
+                if let entry = tocEntries.first(where: { $0.title.localizedCaseInsensitiveContains(heading) }) {
+                    scrollTarget = entry.id
+                }
+                appState.pendingURLHeading = nil
             }
         }
     }
