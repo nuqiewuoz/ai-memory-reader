@@ -7,6 +7,9 @@ final class AppState {
     var selectedFile: FileNode?
     var rootURL: URL?
 
+    /// When true, a single file was opened directly (not a directory)
+    var isSingleFileMode: Bool = false
+
     var availableSources: [AISource] = []
     var selectedSourceID: String? {
         didSet {
@@ -73,6 +76,7 @@ final class AppState {
 
     func selectSource(_ source: AISource) {
         selectedSourceID = source.id
+        isSingleFileMode = false
         searchQuery = ""
         searchResults = []
         loadDirectory(source.url)
@@ -92,25 +96,40 @@ final class AppState {
         if panel.runModal() == .OK, let url = panel.url {
             if url.hasDirectoryPath {
                 selectedSourceID = "local"
+                isSingleFileMode = false
                 UserDefaults.standard.set(url.path(percentEncoded: false), forKey: "lastLocalFolderPath")
                 addRecentFolder(url.path(percentEncoded: false))
                 loadDirectory(url)
                 startWatching(url)
             } else {
-                // Single file selected - load its parent directory and select the file
-                let parentDir = url.deletingLastPathComponent()
-                selectedSourceID = "local"
-                UserDefaults.standard.set(parentDir.path(percentEncoded: false), forKey: "lastLocalFolderPath")
-                addRecentFolder(parentDir.path(percentEncoded: false))
-                loadDirectory(parentDir)
-                startWatching(parentDir)
-                // Find and select the opened file
-                if let node = findNode(url: url, in: rootNode) {
-                    selectedFile = node
-                    expandPathTo(node: node)
-                }
+                // Single file selected - open directly without loading directory tree
+                openSingleFile(url)
             }
         }
+    }
+
+    /// Open a single .md file directly without loading directory tree
+    func openSingleFile(_ url: URL) {
+        selectedSourceID = "local"
+        isSingleFileMode = true
+        searchQuery = ""
+        searchResults = []
+
+        // Stop previous file watching
+        if let stream = activeStream {
+            FileWatcher.stopStream(stream)
+            activeStream = nil
+        }
+
+        let fileNode = FileNode(url: url, isDirectory: false)
+        rootURL = url
+        rootNode = FileNode(url: url.deletingLastPathComponent(), isDirectory: true, children: [fileNode])
+        rootNode?.isExpanded = true
+        selectedFile = fileNode
+        todayFileNode = nil
+
+        // Watch the single file's parent for changes
+        startWatching(url.deletingLastPathComponent())
     }
 
     func loadDirectory(_ url: URL) {
@@ -124,7 +143,28 @@ final class AppState {
     // MARK: - Search
 
     func performSearch() {
-        guard let rootURL, !searchQuery.isEmpty else {
+        guard !searchQuery.isEmpty else {
+            searchResults = []
+            return
+        }
+
+        // Single file mode: search within that file only
+        if isSingleFileMode, let file = selectedFile {
+            isSearching = true
+            let query = searchQuery
+            let fileURL = file.url
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                let results = SearchService.searchInFile(query: query, fileURL: fileURL)
+                DispatchQueue.main.async {
+                    self?.searchResults = results
+                    self?.isSearching = false
+                }
+            }
+            return
+        }
+
+        // Directory mode: search within the loaded directory
+        guard let rootURL else {
             searchResults = []
             return
         }

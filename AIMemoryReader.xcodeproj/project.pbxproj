@@ -13,6 +13,7 @@
 		2BC2EE02A0010186D60F2370 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E2093FAF79897629526F38 /* SidebarView.swift */; };
 		2D517B974CE300D8DBD01C37 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6610F936A4333D1A7A53874 /* DetailView.swift */; };
 		2F37BCE3726AA04649D72527 /* TOCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4D982B38F9CE8F970D4A89 /* TOCView.swift */; };
+		3111DCFA84884591106AFBA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00226A340EC4A00FAB66CD45 /* Assets.xcassets */; };
 		3610DD533DD1708CB78407B1 /* FileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A5DB280F284C91A072EEE5 /* FileNode.swift */; };
 		5577F1F0DCAAF2A6FCDB1A19 /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3691D6A45320F43D34E2C579 /* FileWatcher.swift */; };
 		594B59BB2B6939A6C68A1006 /* FileTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56977F2BE26D6F308F1E0561 /* FileTreeBuilder.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00226A340EC4A00FAB66CD45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		270478B19FE1C33296A3B0DF /* MemoryReaderTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryReaderTheme.swift; sourceTree = "<group>"; };
 		3691D6A45320F43D34E2C579 /* FileWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcher.swift; sourceTree = "<group>"; };
 		56977F2BE26D6F308F1E0561 /* FileTreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTreeBuilder.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				8CE08368B8CBA6216C6D0560 /* App */,
 				1AD2ACDD00D44540F5A62D0D /* Models */,
+				FA4EBB375A22D3B749841507 /* Resources */,
 				A26E44EBA20FAFA8DCF58E55 /* Utilities */,
 				B2A53F3A34D7157D0E9912F8 /* Views */,
 			);
@@ -123,6 +126,14 @@
 			);
 			sourceTree = "<group>";
 		};
+		FA4EBB375A22D3B749841507 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				00226A340EC4A00FAB66CD45 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -131,6 +142,7 @@
 			buildConfigurationList = 515CB780A4CE17933AEF7690 /* Build configuration list for PBXNativeTarget "AIMemoryReader" */;
 			buildPhases = (
 				45D169A2AAD2E73B3E9879FD /* Sources */,
+				D19C89D343293DB776884DDF /* Resources */,
 				A21059A2A85CDD7C7430404E /* Frameworks */,
 			);
 			buildRules = (
@@ -179,6 +191,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D19C89D343293DB776884DDF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3111DCFA84884591106AFBA9 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		45D169A2AAD2E73B3E9879FD /* Sources */ = {

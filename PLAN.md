@@ -63,6 +63,29 @@
 （每个重要节点记录在下方）
 
 ---
+### 2026-03-26 — App Icon + 智能文件打开 + 上下文搜索
+**三项改进**
+
+1. **App Icon**：将 icon.png 放入 Assets.xcassets/AppIcon.appiconset，macOS 原生 1024x1024 图标
+2. **智能文件打开**：
+   - 选择目录（⌘O 或 Local Files）：与之前一样加载目录树到侧边栏
+   - 选择单个 .md 文件（⌘O）：直接打开文件到阅读视图，自动隐藏侧边栏，无需加载目录树
+   - 新增 `isSingleFileMode` 状态，`openSingleFile()` 方法
+3. **上下文搜索**：
+   - 目录模式：搜索当前已加载目录内所有 .md 文件
+   - 单文件模式：在当前文件内查找（find-in-file），显示所有匹配行及行号
+   - 搜索栏 placeholder 根据模式切换（"Search markdown files…" / "Find in file…"）
+   - 新增 `SearchService.searchInFile()` 方法，返回文件内所有匹配行（非仅第一个）
+
+文件变更：
+- 新增 `Assets.xcassets/AppIcon.appiconset/` — App 图标
+- 修改 `project.yml` — 添加资源路径和 ASSETCATALOG_COMPILER_APPICON_NAME
+- 修改 `AppState.swift` — isSingleFileMode、openSingleFile()、上下文搜索逻辑
+- 修改 `ContentView.swift` — 单文件模式自动隐藏侧边栏
+- 修改 `SidebarView.swift` — 搜索栏 placeholder 动态切换
+- 修改 `SearchService.swift` — 新增 searchInFile() 方法
+
+---
 ### 2026-03-26 — M5 完成 ✅
 **本地文件选择 + 快捷键 + 最近文件**
 

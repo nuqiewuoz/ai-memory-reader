@@ -8,6 +8,32 @@ struct SearchResult: Identifiable {
 }
 
 enum SearchService {
+    /// Search within a single file for all matching lines (find-in-file)
+    static func searchInFile(query: String, fileURL: URL) -> [SearchResult] {
+        guard !query.isEmpty else { return [] }
+
+        let lowercasedQuery = query.lowercased()
+        var results: [SearchResult] = []
+
+        guard let data = try? Data(contentsOf: fileURL),
+              let content = String(data: data, encoding: .utf8)
+        else { return [] }
+
+        let lines = content.components(separatedBy: .newlines)
+        for (index, line) in lines.enumerated() {
+            if line.lowercased().contains(lowercasedQuery) {
+                let node = FileNode(url: fileURL, isDirectory: false)
+                results.append(SearchResult(
+                    fileNode: node,
+                    matchedLine: line.trimmingCharacters(in: .whitespaces),
+                    lineNumber: index + 1
+                ))
+            }
+        }
+
+        return results
+    }
+
     /// Search all .md files under a root URL for the given query
     static func search(query: String, in rootURL: URL) -> [SearchResult] {
         guard !query.isEmpty else { return [] }

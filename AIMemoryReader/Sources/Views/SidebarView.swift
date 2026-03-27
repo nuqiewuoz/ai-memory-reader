@@ -151,7 +151,7 @@ struct SidebarView: View {
                 .foregroundColor(.secondary)
                 .font(.system(size: 12))
 
-            TextField("Search markdown files…", text: Bindable(appState).searchQuery)
+            TextField(appState.isSingleFileMode ? "Find in file…" : "Search markdown files…", text: Bindable(appState).searchQuery)
                 .textFieldStyle(.plain)
                 .font(.system(size: 12))
                 .focused($isSearchFocused)
