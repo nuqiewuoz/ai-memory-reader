@@ -68,14 +68,14 @@ extension AISource {
         AISource(
             id: "openclaw",
             name: "OpenClaw",
-            iconName: "ant",
+            iconName: "terminal",
             color: .orange,
             path: ".openclaw/workspace"
         ),
         AISource(
             id: "claude",
             name: "Claude Code",
-            iconName: "chevron.left.forwardslash.chevron.right",
+            iconName: "terminal",
             color: Color(red: 0.76, green: 0.55, blue: 0.25),
             path: ".claude"
         ),
@@ -89,35 +89,35 @@ extension AISource {
         AISource(
             id: "gemini",
             name: "Gemini",
-            iconName: "sparkles",
+            iconName: "terminal",
             color: .blue,
             path: ".gemini"
         ),
         AISource(
             id: "continue",
             name: "Continue",
-            iconName: "play.circle",
+            iconName: "terminal",
             color: .purple,
             path: ".continue"
         ),
         AISource(
             id: "cursor",
             name: "Cursor",
-            iconName: "cursorarrow.rays",
+            iconName: "terminal",
             color: .cyan,
             path: ".cursor"
         ),
         AISource(
             id: "aider",
             name: "Aider",
-            iconName: "wrench",
+            iconName: "terminal",
             color: .gray,
             path: ".aider"
         ),
         AISource(
             id: "copilot",
             name: "GitHub Copilot",
-            iconName: "airplane",
+            iconName: "terminal",
             color: Color(white: 0.35),
             path: ".config/github-copilot"
         ),
