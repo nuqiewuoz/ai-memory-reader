@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 @Observable
 final class AppState {
     var rootNode: FileNode?
@@ -152,11 +153,28 @@ final class AppState {
     // MARK: - File Watching
 
     private func startWatching(_ url: URL) {
-        fileWatcher?.stop()
-        fileWatcher = FileWatcher(path: url.path(percentEncoded: false)) { [weak self] in
-            self?.handleFileSystemChange()
+        // Stop previous stream
+        if let stream = activeStream {
+            FileWatcher.stopStream(stream)
+            activeStream = nil
         }
-        fileWatcher?.start()
+        if let obs = fsObserver {
+            NotificationCenter.default.removeObserver(obs)
+            fsObserver = nil
+        }
+
+        let watcher = FileWatcher(path: url.path(percentEncoded: false))
+        activeStream = watcher.startStream()
+
+        fsObserver = NotificationCenter.default.addObserver(
+            forName: .fileWatcherDidDetectChange,
+            object: nil,
+            queue: .main
+        ) { [weak self] _ in
+            Task { @MainActor in
+                self?.handleFileSystemChange()
+            }
+        }
     }
 
     private func handleFileSystemChange() {

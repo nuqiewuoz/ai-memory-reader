@@ -3,18 +3,14 @@ import Foundation
 /// Watches a directory tree for .md file changes using FSEvents
 final class FileWatcher: Sendable {
     private let path: String
-    private let notificationName: Notification.Name
-
-    nonisolated init(path: String, notificationName: Notification.Name = .fileWatcherDidDetectChange) {
+    nonisolated init(path: String) {
         self.path = path
-        self.notificationName = notificationName
     }
 
     /// Starts watching. Returns a stream reference that the caller must keep alive.
     /// Call `stopStream(_:)` to stop watching.
     func startStream() -> FSEventStreamRef? {
         let pathsToWatch = [path] as CFArray
-        let name = notificationName
 
         let queue = DispatchQueue(label: "com.aitools.filewatcher", qos: .utility)
 
