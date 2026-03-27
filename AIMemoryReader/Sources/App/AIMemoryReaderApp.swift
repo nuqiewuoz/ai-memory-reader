@@ -1,5 +1,9 @@
 import SwiftUI
 
+extension Notification.Name {
+    static let editorManualSave = Notification.Name("editorManualSave")
+}
+
 @main
 struct AIMemoryReaderApp: App {
     @State private var appState = AppState()
@@ -22,6 +26,13 @@ struct AIMemoryReaderApp: App {
                     appState.focusSearch = true
                 }
                 .keyboardShortcut("f", modifiers: .command)
+            }
+
+            CommandGroup(replacing: .saveItem) {
+                Button("Save") {
+                    NotificationCenter.default.post(name: .editorManualSave, object: nil)
+                }
+                .keyboardShortcut("s", modifiers: .command)
             }
 
             CommandGroup(after: .sidebar) {

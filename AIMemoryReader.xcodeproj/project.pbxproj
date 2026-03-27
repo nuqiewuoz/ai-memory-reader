@@ -12,6 +12,7 @@
 		0D70AA0F2056620F8D9A82E0 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA6D624BEBD4A25A4F01FB8 /* Splash */; };
 		2BC2EE02A0010186D60F2370 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E2093FAF79897629526F38 /* SidebarView.swift */; };
 		2D517B974CE300D8DBD01C37 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6610F936A4333D1A7A53874 /* DetailView.swift */; };
+		A1B2C3D4E5F60718DEADBEEF /* MarkdownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2D3C4B5A60718CAFEBABE /* MarkdownEditorView.swift */; };
 		2F37BCE3726AA04649D72527 /* TOCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4D982B38F9CE8F970D4A89 /* TOCView.swift */; };
 		3111DCFA84884591106AFBA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00226A340EC4A00FAB66CD45 /* Assets.xcassets */; };
 		3610DD533DD1708CB78407B1 /* FileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A5DB280F284C91A072EEE5 /* FileNode.swift */; };
@@ -39,6 +40,7 @@
 		D248BF40C03D9E2AD6716440 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D4425392FF610C06C61FA3E1 /* AISource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISource.swift; sourceTree = "<group>"; };
 		D6610F936A4333D1A7A53874 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		F1E2D3C4B5A60718CAFEBABE /* MarkdownEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownEditorView.swift; sourceTree = "<group>"; };
 		F0E49EB34CA6DA4182328E8D /* AIMemoryReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AIMemoryReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9E527E4F068643568803A9B /* AIMemoryReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIMemoryReaderApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +114,7 @@
 			children = (
 				D248BF40C03D9E2AD6716440 /* ContentView.swift */,
 				D6610F936A4333D1A7A53874 /* DetailView.swift */,
+				F1E2D3C4B5A60718CAFEBABE /* MarkdownEditorView.swift */,
 				A2E2093FAF79897629526F38 /* SidebarView.swift */,
 				CC4D982B38F9CE8F970D4A89 /* TOCView.swift */,
 			);
@@ -213,6 +216,7 @@
 				DF8C39DB565A50C76D3E6BC9 /* AppState.swift in Sources */,
 				78DB864F59FC089B517B6181 /* ContentView.swift in Sources */,
 				2D517B974CE300D8DBD01C37 /* DetailView.swift in Sources */,
+				A1B2C3D4E5F60718DEADBEEF /* MarkdownEditorView.swift in Sources */,
 				3610DD533DD1708CB78407B1 /* FileNode.swift in Sources */,
 				594B59BB2B6939A6C68A1006 /* FileTreeBuilder.swift in Sources */,
 				5577F1F0DCAAF2A6FCDB1A19 /* FileWatcher.swift in Sources */,

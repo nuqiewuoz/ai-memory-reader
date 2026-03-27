@@ -31,12 +31,22 @@ struct MarkdownDetailView: View {
     let fileNode: FileNode
     let fileChangeToken: Int
     @State private var rawContent: String?
+    @State private var editableContent: String = ""
     @State private var loadError: String?
     @State private var tocEntries: [TOCEntry] = []
     @State private var sections: [MarkdownSection] = []
     @State private var activeEntryID: String?
     @State private var showTOC = true
     @State private var scrollTarget: String?
+    @State private var isEditMode = false
+    @State private var saveState: SaveState = .idle
+    @State private var autoSaveTask: Task<Void, Never>?
+
+    enum SaveState: Equatable {
+        case idle
+        case saving
+        case saved
+    }
 
     var body: some View {
         VStack(spacing: 0) {
@@ -46,51 +56,10 @@ struct MarkdownDetailView: View {
             if let error = loadError {
                 errorView(error)
             } else if rawContent != nil {
-                HStack(spacing: 0) {
-                    // Main markdown content
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            LazyVStack(alignment: .leading, spacing: 0) {
-                                ForEach(sections) { section in
-                                    Markdown(section.content)
-                                        .markdownTheme(.memoryReader)
-                                        .markdownCodeSyntaxHighlighter(.splash)
-                                        .textSelection(.enabled)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                        .padding(.horizontal, 24)
-                                        .padding(.vertical, 2)
-                                        .id(section.id)
-                                        .onAppear {
-                                            // Update active TOC entry when section scrolls into view
-                                            if tocEntries.contains(where: { $0.id == section.id }) {
-                                                activeEntryID = section.id
-                                            }
-                                        }
-                                }
-                            }
-                            .padding(.vertical, 16)
-                        }
-                        .onChange(of: scrollTarget) { _, newValue in
-                            if let target = newValue {
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    proxy.scrollTo(target, anchor: .top)
-                                }
-                                scrollTarget = nil
-                            }
-                        }
-                    }
-
-                    // TOC sidebar on right
-                    if showTOC && !tocEntries.isEmpty {
-                        Divider()
-                        TOCSidebarView(
-                            entries: tocEntries,
-                            activeEntryID: activeEntryID
-                        ) { entry in
-                            activeEntryID = entry.id
-                            scrollTarget = entry.id
-                        }
-                    }
+                if isEditMode {
+                    editorView
+                } else {
+                    readView
                 }
             } else {
                 ProgressView()
@@ -101,9 +70,22 @@ struct MarkdownDetailView: View {
             await loadFile()
         }
         .onChange(of: fileChangeToken) { _, _ in
-            Task { await loadFile() }
+            // Only reload from disk if we're not in edit mode (avoid overwriting edits)
+            if !isEditMode {
+                Task { await loadFile() }
+            }
+        }
+        .onDisappear {
+            autoSaveTask?.cancel()
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .editorManualSave)) { _ in
+            if isEditMode {
+                saveIfNeeded()
+            }
         }
     }
+
+    // MARK: - Title Bar
 
     private var titleBar: some View {
         HStack {
@@ -112,12 +94,30 @@ struct MarkdownDetailView: View {
             Text(fileNode.name)
                 .font(.headline)
             Spacer()
+
+            // Save state indicator
+            if isEditMode {
+                saveIndicator
+            }
+
             if let raw = rawContent {
                 Text("\(raw.count) chars")
                     .font(.caption)
                     .foregroundColor(.secondary)
             }
-            if !tocEntries.isEmpty {
+
+            // Edit/Preview toggle button
+            Button {
+                toggleEditMode()
+            } label: {
+                Image(systemName: isEditMode ? "eye" : "pencil")
+                    .foregroundColor(isEditMode ? .accentColor : .secondary)
+            }
+            .buttonStyle(.plain)
+            .help(isEditMode ? "Switch to Read mode (⌘E)" : "Switch to Edit mode (⌘E)")
+            .keyboardShortcut("e", modifiers: .command)
+
+            if !tocEntries.isEmpty && !isEditMode {
                 Button {
                     withAnimation(.easeInOut(duration: 0.2)) {
                         showTOC.toggle()
@@ -135,8 +135,163 @@ struct MarkdownDetailView: View {
         .background(.bar)
     }
 
+    // MARK: - Save Indicator
+
+    @ViewBuilder
+    private var saveIndicator: some View {
+        switch saveState {
+        case .idle:
+            EmptyView()
+        case .saving:
+            HStack(spacing: 4) {
+                ProgressView()
+                    .controlSize(.mini)
+                Text("Saving…")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+        case .saved:
+            HStack(spacing: 4) {
+                Image(systemName: "checkmark.circle.fill")
+                    .font(.caption2)
+                    .foregroundColor(.green)
+                Text("Saved")
+                    .font(.caption2)
+                    .foregroundColor(.secondary)
+            }
+            .transition(.opacity)
+        }
+    }
+
+    // MARK: - Editor View
+
+    private var editorView: some View {
+        MarkdownEditorView(text: $editableContent) { newText in
+            scheduleAutoSave()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    // MARK: - Read View (existing)
+
+    private var readView: some View {
+        HStack(spacing: 0) {
+            // Main markdown content
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        ForEach(sections) { section in
+                            Markdown(section.content)
+                                .markdownTheme(.memoryReader)
+                                .markdownCodeSyntaxHighlighter(.splash)
+                                .textSelection(.enabled)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 2)
+                                .id(section.id)
+                                .onAppear {
+                                    if tocEntries.contains(where: { $0.id == section.id }) {
+                                        activeEntryID = section.id
+                                    }
+                                }
+                        }
+                    }
+                    .padding(.vertical, 16)
+                }
+                .onChange(of: scrollTarget) { _, newValue in
+                    if let target = newValue {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            proxy.scrollTo(target, anchor: .top)
+                        }
+                        scrollTarget = nil
+                    }
+                }
+            }
+
+            // TOC sidebar on right
+            if showTOC && !tocEntries.isEmpty {
+                Divider()
+                TOCSidebarView(
+                    entries: tocEntries,
+                    activeEntryID: activeEntryID
+                ) { entry in
+                    activeEntryID = entry.id
+                    scrollTarget = entry.id
+                }
+            }
+        }
+    }
+
+    // MARK: - Edit Mode Toggle
+
+    private func toggleEditMode() {
+        if isEditMode {
+            // Switching from Edit → Read: save first, then update rendered view
+            saveIfNeeded()
+            rawContent = editableContent
+            tocEntries = TOCParser.parse(editableContent)
+            sections = MarkdownSplitter.split(editableContent, entries: tocEntries)
+        } else {
+            // Switching from Read → Edit: load content into editor
+            editableContent = rawContent ?? ""
+        }
+        withAnimation(.easeInOut(duration: 0.15)) {
+            isEditMode.toggle()
+        }
+    }
+
+    // MARK: - Auto-Save
+
+    private func scheduleAutoSave() {
+        autoSaveTask?.cancel()
+        autoSaveTask = Task {
+            try? await Task.sleep(for: .seconds(2))
+            if !Task.isCancelled {
+                await MainActor.run {
+                    saveIfNeeded()
+                }
+            }
+        }
+    }
+
+    private func saveIfNeeded() {
+        guard isEditMode else { return }
+        let content = editableContent
+        guard content != rawContent else { return }
+
+        saveState = .saving
+        do {
+            try content.write(to: fileNode.url, atomically: true, encoding: .utf8)
+            rawContent = content
+            saveState = .saved
+
+            // Clear "saved" indicator after 2 seconds
+            Task {
+                try? await Task.sleep(for: .seconds(2))
+                if saveState == .saved {
+                    withAnimation {
+                        saveState = .idle
+                    }
+                }
+            }
+        } catch {
+            // On save error, keep the state but show briefly
+            saveState = .idle
+        }
+    }
+
+    // MARK: - Manual Save (⌘S)
+
+    func manualSave() {
+        saveIfNeeded()
+    }
+
+    // MARK: - Load File
+
     private func loadFile() async {
         loadError = nil
+        isEditMode = false
+        saveState = .idle
         do {
             let data = try Data(contentsOf: fileNode.url)
             guard let text = String(data: data, encoding: .utf8) else {
@@ -144,6 +299,7 @@ struct MarkdownDetailView: View {
                 return
             }
             rawContent = text
+            editableContent = text
             tocEntries = TOCParser.parse(text)
             sections = MarkdownSplitter.split(text, entries: tocEntries)
         } catch {
