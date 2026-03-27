@@ -40,6 +40,29 @@
 - V2.1（编辑模式）+ V2.2（iPhone）+ V2.3（AI 工具调用）
 - 开始 V2.1 开发
 
+### 2026-03-26 — V2.3 完成：AI 工具调用接口
+#### V2.3-M1: URL Scheme + CLI
+- URL Scheme 处理器：`aimemoryreader://open?path=/path/to/file.md&heading=Heading`
+- macOS 和 iOS 均支持通过 URL scheme 打开文件并跳转到指定 heading
+- AppState 新增 `pendingURLHeading` 属性，DetailView 监听并自动滚动
+- CLI 工具 `aimr`：shell 脚本，通过 `open` 命令调用 URL scheme
+- 用法：`aimr open /path/to/file.md --heading "Section Title"`
+- URL scheme 已在 Info.plist 中注册（V1 已有）
+
+### 2026-03-26 — V2.2 完成：iPhone 适配
+#### V2.2-M1: iOS target + 跨平台共享代码
+- 新增 iOS target（AIMemoryReader-iOS），最低支持 iOS 17
+- project.yml 同时定义 macOS 和 iOS 两个 target，共享同一套源码
+- 使用 `#if os(macOS)` / `#if os(iOS)` 隔离平台特定代码
+- macOS 保持 NavigationSplitView 布局不变
+- iOS 使用 NavigationStack：文件列表 → push 到阅读页
+- iOS 通过 UIDocumentPickerViewController 从 Files app 打开 .md 文件
+- Info.plist 注册 UTType（net.daringfireball.markdown）+ UISupportsDocumentBrowser
+- MarkdownUI 主题支持 Dynamic Type（baseFontSize / headingScale 按平台适配）
+- SplashCodeSyntaxHighlighter 跨平台适配（NSFont → UIFont）
+- macOS 专有代码已隔离：FSEvents 文件监视、NSOpenPanel、NSTextView 编辑器
+- 编辑模式仅 macOS 可用（NSTextView wrapper）
+
 ### 2026-03-26 — V2.1 完成：编辑模式
 #### V2.1-M1: 编辑器框架 + 编辑/预览切换
 - 新增 `MarkdownEditorView.swift`：基于 NSTextView 的 Markdown 编辑器
