@@ -1,3 +1,4 @@
+#if os(macOS)
 import MarkdownUI
 import SwiftUI
 
@@ -333,3 +334,4 @@ struct PlainCodeSyntaxHighlighter: CodeSyntaxHighlighter {
 extension CodeSyntaxHighlighter where Self == PlainCodeSyntaxHighlighter {
     static var plain: PlainCodeSyntaxHighlighter { PlainCodeSyntaxHighlighter() }
 }
+#endif

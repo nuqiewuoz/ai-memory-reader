@@ -2,6 +2,14 @@ import MarkdownUI
 import Splash
 import SwiftUI
 
+#if os(macOS)
+import AppKit
+private typealias PlatformFont = NSFont
+#else
+import UIKit
+private typealias PlatformFont = UIFont
+#endif
+
 /// Syntax highlighter using Splash for Swift-like code blocks.
 /// Falls back to plain monospace text for unsupported languages.
 struct SplashCodeSyntaxHighlighter: CodeSyntaxHighlighter {
@@ -150,16 +158,20 @@ struct AttributedStringOutputFormat: OutputFormat {
 
         mutating func addToken(_ token: String, ofType type: TokenType) {
             var attrs = AttributeContainer()
-            attrs.font = NSFont.monospacedSystemFont(ofSize: 14, weight: .regular)
+            attrs.font = PlatformFont.monospacedSystemFont(ofSize: 14, weight: .regular)
             if let color = theme.tokenColors[type] {
+                #if os(macOS)
                 attrs.foregroundColor = Color(nsColor: color)
+                #else
+                attrs.foregroundColor = Color(uiColor: color)
+                #endif
             }
             attributedString.append(AttributedString(token, attributes: attrs))
         }
 
         mutating func addPlainText(_ text: String) {
             var attrs = AttributeContainer()
-            attrs.font = NSFont.monospacedSystemFont(ofSize: 14, weight: .regular)
+            attrs.font = PlatformFont.monospacedSystemFont(ofSize: 14, weight: .regular)
             attrs.foregroundColor = Color.primary
             attributedString.append(AttributedString(text, attributes: attrs))
         }
@@ -173,4 +185,3 @@ struct AttributedStringOutputFormat: OutputFormat {
         }
     }
 }
-#endif

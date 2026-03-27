@@ -174,7 +174,11 @@ struct TOCSidebarView: View {
             }
         }
         .frame(width: 200)
+        #if os(macOS)
         .background(Color(.controlBackgroundColor).opacity(0.3))
+        #else
+        .background(Color(.secondarySystemGroupedBackground).opacity(0.3))
+        #endif
     }
 
     private func entryFontSize(_ level: Int) -> CGFloat {

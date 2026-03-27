@@ -1,3 +1,4 @@
+#if os(macOS)
 import SwiftUI
 
 struct SidebarView: View {
@@ -355,3 +356,4 @@ struct FileNodeView: View {
         }
     }
 }
+#endif

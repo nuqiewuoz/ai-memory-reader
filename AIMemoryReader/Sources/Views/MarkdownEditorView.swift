@@ -1,3 +1,4 @@
+#if os(macOS)
 import AppKit
 import SwiftUI
 
@@ -359,3 +360,4 @@ class LineNumberRulerView: NSRulerView {
         }
     }
 }
+#endif

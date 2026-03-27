@@ -7,28 +7,48 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0358C8314653253BB8569D5D /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6610F936A4333D1A7A53874 /* DetailView.swift */; };
 		06246CD688EF3373DF41A4A2 /* AIMemoryReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E527E4F068643568803A9B /* AIMemoryReaderApp.swift */; };
 		0C9B5A6F2652D9D5E9D78635 /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725ECD196723FE272CE3ACAB /* SearchService.swift */; };
 		0D70AA0F2056620F8D9A82E0 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 1FA6D624BEBD4A25A4F01FB8 /* Splash */; };
+		0F294E900509BA81DD6DC0FC /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = A358A8DC5D7E7FF5756290BB /* Splash */; };
+		23D6FAB388A84C8E848E3B3C /* MarkdownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3A71310F272AA72203D67 /* MarkdownEditorView.swift */; };
 		2BC2EE02A0010186D60F2370 /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E2093FAF79897629526F38 /* SidebarView.swift */; };
 		2D517B974CE300D8DBD01C37 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6610F936A4333D1A7A53874 /* DetailView.swift */; };
-		A1B2C3D4E5F60718DEADBEEF /* MarkdownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1E2D3C4B5A60718CAFEBABE /* MarkdownEditorView.swift */; };
 		2F37BCE3726AA04649D72527 /* TOCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4D982B38F9CE8F970D4A89 /* TOCView.swift */; };
 		3111DCFA84884591106AFBA9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00226A340EC4A00FAB66CD45 /* Assets.xcassets */; };
 		3610DD533DD1708CB78407B1 /* FileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A5DB280F284C91A072EEE5 /* FileNode.swift */; };
+		39977EE8A518E69D07D1DEC1 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 419CC2A2F23BBC2AF3023A3B /* MarkdownUI */; };
 		5577F1F0DCAAF2A6FCDB1A19 /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3691D6A45320F43D34E2C579 /* FileWatcher.swift */; };
 		594B59BB2B6939A6C68A1006 /* FileTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56977F2BE26D6F308F1E0561 /* FileTreeBuilder.swift */; };
+		6662D7205DF6EEDAC90340FE /* SidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2E2093FAF79897629526F38 /* SidebarView.swift */; };
+		71C927BDD26E51418E235F2C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D248BF40C03D9E2AD6716440 /* ContentView.swift */; };
+		74FE15970F25505B49A3134F /* FileWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3691D6A45320F43D34E2C579 /* FileWatcher.swift */; };
 		78DB864F59FC089B517B6181 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D248BF40C03D9E2AD6716440 /* ContentView.swift */; };
+		7E9B1283C609667FCB07BD81 /* FileNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69A5DB280F284C91A072EEE5 /* FileNode.swift */; };
+		81AC655F47D2ECC9AB0E3F6D /* TOCView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4D982B38F9CE8F970D4A89 /* TOCView.swift */; };
 		8C9E8D4A9F4666EDF756DF2C /* AISource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4425392FF610C06C61FA3E1 /* AISource.swift */; };
 		932B3FB0759D7EDF1E1DDD04 /* MemoryReaderTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270478B19FE1C33296A3B0DF /* MemoryReaderTheme.swift */; };
+		98E934B7CEBE3A67E11286D5 /* MarkdownEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17E3A71310F272AA72203D67 /* MarkdownEditorView.swift */; };
 		AC43341EE831FBC929DC4B84 /* SplashCodeSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E04F0B21D75210E98CD430 /* SplashCodeSyntaxHighlighter.swift */; };
+		AEFCB90BC321F3ED5BC55CBD /* AISource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4425392FF610C06C61FA3E1 /* AISource.swift */; };
+		C19044D545DB7890ADC40746 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C4724134228F395760B42F /* AppState.swift */; };
+		C357559BA260869B761012D0 /* SplashCodeSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90E04F0B21D75210E98CD430 /* SplashCodeSyntaxHighlighter.swift */; };
+		CD72E672CA6FDDF4A87E1929 /* FileTreeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56977F2BE26D6F308F1E0561 /* FileTreeBuilder.swift */; };
+		D2A5E8043CB302F66AB229CA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 00226A340EC4A00FAB66CD45 /* Assets.xcassets */; };
+		DC3A48C8CD5F63E276ADADEC /* SearchService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 725ECD196723FE272CE3ACAB /* SearchService.swift */; };
 		DF8C39DB565A50C76D3E6BC9 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C4724134228F395760B42F /* AppState.swift */; };
 		E8E865A4FEFAD3837E570712 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 8F4B2988D9518EB8761E76F4 /* MarkdownUI */; };
+		F04D3D302CCA18B53CC846AF /* AIMemoryReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9E527E4F068643568803A9B /* AIMemoryReaderApp.swift */; };
+		FB44D88E33A5A17CEE6A2E66 /* MemoryReaderTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270478B19FE1C33296A3B0DF /* MemoryReaderTheme.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		00226A340EC4A00FAB66CD45 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		17E3A71310F272AA72203D67 /* MarkdownEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownEditorView.swift; sourceTree = "<group>"; };
+		21AAE6595CCD0FCB2E30E16A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		270478B19FE1C33296A3B0DF /* MemoryReaderTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryReaderTheme.swift; sourceTree = "<group>"; };
+		27E5C1FBAF93AAB3152C77DB /* AIMemoryReader-iOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = "AIMemoryReader-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3691D6A45320F43D34E2C579 /* FileWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWatcher.swift; sourceTree = "<group>"; };
 		56977F2BE26D6F308F1E0561 /* FileTreeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileTreeBuilder.swift; sourceTree = "<group>"; };
 		69A5DB280F284C91A072EEE5 /* FileNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileNode.swift; sourceTree = "<group>"; };
@@ -40,12 +60,20 @@
 		D248BF40C03D9E2AD6716440 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		D4425392FF610C06C61FA3E1 /* AISource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AISource.swift; sourceTree = "<group>"; };
 		D6610F936A4333D1A7A53874 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
-		F1E2D3C4B5A60718CAFEBABE /* MarkdownEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownEditorView.swift; sourceTree = "<group>"; };
 		F0E49EB34CA6DA4182328E8D /* AIMemoryReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AIMemoryReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F9E527E4F068643568803A9B /* AIMemoryReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIMemoryReaderApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		92C96ACB6019A2B76AD0338E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				39977EE8A518E69D07D1DEC1 /* MarkdownUI in Frameworks */,
+				0F294E900509BA81DD6DC0FC /* Splash in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		A21059A2A85CDD7C7430404E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -71,6 +99,7 @@
 		32894954F04264D8F7DBB57B /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				27E5C1FBAF93AAB3152C77DB /* AIMemoryReader-iOS.app */,
 				F0E49EB34CA6DA4182328E8D /* AIMemoryReader.app */,
 			);
 			name = Products;
@@ -114,7 +143,7 @@
 			children = (
 				D248BF40C03D9E2AD6716440 /* ContentView.swift */,
 				D6610F936A4333D1A7A53874 /* DetailView.swift */,
-				F1E2D3C4B5A60718CAFEBABE /* MarkdownEditorView.swift */,
+				17E3A71310F272AA72203D67 /* MarkdownEditorView.swift */,
 				A2E2093FAF79897629526F38 /* SidebarView.swift */,
 				CC4D982B38F9CE8F970D4A89 /* TOCView.swift */,
 			);
@@ -133,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				00226A340EC4A00FAB66CD45 /* Assets.xcassets */,
+				21AAE6595CCD0FCB2E30E16A /* Info.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -159,6 +189,27 @@
 			);
 			productName = AIMemoryReader;
 			productReference = F0E49EB34CA6DA4182328E8D /* AIMemoryReader.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EE733643EEF8BA0E1E17DBAE /* AIMemoryReader-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FDFC6FED7C9A8D85A77412AC /* Build configuration list for PBXNativeTarget "AIMemoryReader-iOS" */;
+			buildPhases = (
+				8D23E8D8E25CC7164331591A /* Sources */,
+				27377D014C3868544E73C773 /* Resources */,
+				92C96ACB6019A2B76AD0338E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AIMemoryReader-iOS";
+			packageProductDependencies = (
+				419CC2A2F23BBC2AF3023A3B /* MarkdownUI */,
+				A358A8DC5D7E7FF5756290BB /* Splash */,
+			);
+			productName = "AIMemoryReader-iOS";
+			productReference = 27E5C1FBAF93AAB3152C77DB /* AIMemoryReader-iOS.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -191,11 +242,20 @@
 			projectRoot = "";
 			targets = (
 				5B056BAAEEAF7A1B57D23CEF /* AIMemoryReader */,
+				EE733643EEF8BA0E1E17DBAE /* AIMemoryReader-iOS */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		27377D014C3868544E73C773 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D2A5E8043CB302F66AB229CA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D19C89D343293DB776884DDF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -216,15 +276,36 @@
 				DF8C39DB565A50C76D3E6BC9 /* AppState.swift in Sources */,
 				78DB864F59FC089B517B6181 /* ContentView.swift in Sources */,
 				2D517B974CE300D8DBD01C37 /* DetailView.swift in Sources */,
-				A1B2C3D4E5F60718DEADBEEF /* MarkdownEditorView.swift in Sources */,
 				3610DD533DD1708CB78407B1 /* FileNode.swift in Sources */,
 				594B59BB2B6939A6C68A1006 /* FileTreeBuilder.swift in Sources */,
 				5577F1F0DCAAF2A6FCDB1A19 /* FileWatcher.swift in Sources */,
+				23D6FAB388A84C8E848E3B3C /* MarkdownEditorView.swift in Sources */,
 				932B3FB0759D7EDF1E1DDD04 /* MemoryReaderTheme.swift in Sources */,
 				0C9B5A6F2652D9D5E9D78635 /* SearchService.swift in Sources */,
 				2BC2EE02A0010186D60F2370 /* SidebarView.swift in Sources */,
 				AC43341EE831FBC929DC4B84 /* SplashCodeSyntaxHighlighter.swift in Sources */,
 				2F37BCE3726AA04649D72527 /* TOCView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D23E8D8E25CC7164331591A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F04D3D302CCA18B53CC846AF /* AIMemoryReaderApp.swift in Sources */,
+				AEFCB90BC321F3ED5BC55CBD /* AISource.swift in Sources */,
+				C19044D545DB7890ADC40746 /* AppState.swift in Sources */,
+				71C927BDD26E51418E235F2C /* ContentView.swift in Sources */,
+				0358C8314653253BB8569D5D /* DetailView.swift in Sources */,
+				7E9B1283C609667FCB07BD81 /* FileNode.swift in Sources */,
+				CD72E672CA6FDDF4A87E1929 /* FileTreeBuilder.swift in Sources */,
+				74FE15970F25505B49A3134F /* FileWatcher.swift in Sources */,
+				98E934B7CEBE3A67E11286D5 /* MarkdownEditorView.swift in Sources */,
+				FB44D88E33A5A17CEE6A2E66 /* MemoryReaderTheme.swift in Sources */,
+				DC3A48C8CD5F63E276ADADEC /* SearchService.swift in Sources */,
+				6662D7205DF6EEDAC90340FE /* SidebarView.swift in Sources */,
+				C357559BA260869B761012D0 /* SplashCodeSyntaxHighlighter.swift in Sources */,
+				81AC655F47D2ECC9AB0E3F6D /* TOCView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -238,19 +319,46 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AIMemoryReader/Sources/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "AI Memory Reader";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.aitools.ai-memory-reader";
 				PRODUCT_NAME = "AI Memory Reader";
 				SDKROOT = macosx;
 				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
+		};
+		3F7416B23B5402A6F47E1793 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AIMemoryReader/Sources/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Memory Reader";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aitools.ai-memory-reader-ios";
+				PRODUCT_NAME = "AI Memory Reader";
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
 		};
 		5C9E6E15AA4948AF1CE4C5F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -303,12 +411,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
@@ -360,16 +468,42 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 6.0;
 			};
 			name = Release;
+		};
+		ACF5CA1E0804313ADE2837D1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AIMemoryReader/Sources/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "AI Memory Reader";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.2.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.aitools.ai-memory-reader-ios";
+				PRODUCT_NAME = "AI Memory Reader";
+				SDKROOT = iphoneos;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_STRICT_CONCURRENCY = complete;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
 		};
 		CF77B4412B2A93AEC05AA64C /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -378,13 +512,14 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = AIMemoryReader/Sources/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "AI Memory Reader";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.1.0;
+				MARKETING_VERSION = 0.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.aitools.ai-memory-reader";
 				PRODUCT_NAME = "AI Memory Reader";
 				SDKROOT = macosx;
@@ -409,6 +544,15 @@
 			buildConfigurations = (
 				5C9E6E15AA4948AF1CE4C5F4 /* Debug */,
 				7ABB8EB4AF3089653682280D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		FDFC6FED7C9A8D85A77412AC /* Build configuration list for PBXNativeTarget "AIMemoryReader-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ACF5CA1E0804313ADE2837D1 /* Debug */,
+				3F7416B23B5402A6F47E1793 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
@@ -440,10 +584,20 @@
 			package = CCDF812C3D5767C15FD8F3B4 /* XCRemoteSwiftPackageReference "Splash" */;
 			productName = Splash;
 		};
+		419CC2A2F23BBC2AF3023A3B /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C2461A940BBC2E6B9220EBEE /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
 		8F4B2988D9518EB8761E76F4 /* MarkdownUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C2461A940BBC2E6B9220EBEE /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
 			productName = MarkdownUI;
+		};
+		A358A8DC5D7E7FF5756290BB /* Splash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CCDF812C3D5767C15FD8F3B4 /* XCRemoteSwiftPackageReference "Splash" */;
+			productName = Splash;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

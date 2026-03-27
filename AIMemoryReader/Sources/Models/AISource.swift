@@ -9,7 +9,12 @@ struct AISource: Identifiable, Hashable {
     let path: String  // relative to home directory
 
     var url: URL {
+        #if os(macOS)
         FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent(path)
+        #else
+        // On iOS, sources aren't filesystem-based
+        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(path)
+        #endif
     }
 
     var exists: Bool {
@@ -42,6 +47,11 @@ extension AISource {
     ]
 
     static func detectAvailable() -> [AISource] {
-        allSources.filter { $0.exists }
+        #if os(iOS)
+        // On iOS, no local AI sources are detected (files come via document picker)
+        return []
+        #else
+        return allSources.filter { $0.exists }
+        #endif
     }
 }

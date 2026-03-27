@@ -29,8 +29,10 @@ final class AppState {
 
     // MARK: - File Watching
 
+    #if os(macOS)
     private var activeStream: FSEventStreamRef?
     private var fsObserver: Any?
+    #endif
 
     /// Incremented on each file-system change so views can react
     var fileChangeToken: Int = 0
@@ -41,6 +43,11 @@ final class AppState {
         get { UserDefaults.standard.stringArray(forKey: "recentFolders") ?? [] }
         set { UserDefaults.standard.set(newValue, forKey: "recentFolders") }
     }
+
+    // MARK: - URL Scheme handling
+
+    var pendingURLPath: String?
+    var pendingURLHeading: String?
 
     init() {
         availableSources = AISource.detectAvailable()
@@ -56,6 +63,7 @@ final class AppState {
             return
         }
 
+        #if os(macOS)
         // Try to restore local folder
         if selectedSourceID == "local",
            let savedPath = UserDefaults.standard.string(forKey: "lastLocalFolderPath") {
@@ -66,6 +74,7 @@ final class AppState {
                 return
             }
         }
+        #endif
 
         // Fallback: pick first available source
         if let first = availableSources.first {
@@ -84,6 +93,7 @@ final class AppState {
         startWatching(source.url)
     }
 
+    #if os(macOS)
     func openFolder() {
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true
@@ -107,6 +117,7 @@ final class AppState {
             }
         }
     }
+    #endif
 
     /// Open a single .md file directly without loading directory tree
     func openSingleFile(_ url: URL) {
@@ -116,10 +127,12 @@ final class AppState {
         searchResults = []
 
         // Stop previous file watching
+        #if os(macOS)
         if let stream = activeStream {
             FileWatcher.stopStream(stream)
             activeStream = nil
         }
+        #endif
 
         let fileNode = FileNode(url: url, isDirectory: false)
         rootURL = url
@@ -138,6 +151,29 @@ final class AppState {
         rootNode?.isExpanded = true
         selectedFile = nil
         todayFileNode = nil
+    }
+
+    // MARK: - URL Scheme
+
+    func handleURL(_ url: URL) {
+        guard url.scheme == "aimemoryreader" else { return }
+
+        if url.host == "open" || url.path.isEmpty {
+            let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
+            let queryItems = components?.queryItems ?? []
+
+            if let path = queryItems.first(where: { $0.name == "path" })?.value {
+                let fileURL = URL(fileURLWithPath: path)
+                let heading = queryItems.first(where: { $0.name == "heading" })?.value
+
+                if FileManager.default.fileExists(atPath: path) {
+                    openSingleFile(fileURL)
+                    if let heading {
+                        pendingURLHeading = heading
+                    }
+                }
+            }
+        }
     }
 
     // MARK: - Search
@@ -194,6 +230,7 @@ final class AppState {
     // MARK: - File Watching
 
     private func startWatching(_ url: URL) {
+        #if os(macOS)
         // Stop previous stream
         if let stream = activeStream {
             FileWatcher.stopStream(stream)
@@ -216,8 +253,10 @@ final class AppState {
                 self?.handleFileSystemChange()
             }
         }
+        #endif
     }
 
+    #if os(macOS)
     private func handleFileSystemChange() {
         guard let rootURL else { return }
 
@@ -244,6 +283,7 @@ final class AppState {
         // Increment change token so detail view can reload
         fileChangeToken += 1
     }
+    #endif
 
     // MARK: - Recent Folders
 

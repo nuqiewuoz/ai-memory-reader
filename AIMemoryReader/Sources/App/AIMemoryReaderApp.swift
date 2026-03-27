@@ -12,7 +12,11 @@ struct AIMemoryReaderApp: App {
         WindowGroup {
             ContentView()
                 .environment(appState)
+                .onOpenURL { url in
+                    appState.handleURL(url)
+                }
         }
+        #if os(macOS)
         .commands {
             CommandGroup(replacing: .newItem) {
                 Button("Open File or Folder…") {
@@ -49,5 +53,6 @@ struct AIMemoryReaderApp: App {
                 .keyboardShortcut("2", modifiers: .command)
             }
         }
+        #endif
     }
 }
