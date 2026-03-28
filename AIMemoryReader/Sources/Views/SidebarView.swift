@@ -361,6 +361,13 @@ struct FileNodeView: View {
                 Label(node.name, systemImage: "folder")
                     .foregroundColor(.primary)
             }
+            .contextMenu {
+                Button {
+                    NSWorkspace.shared.activateFileViewerSelecting([node.url])
+                } label: {
+                    Label("Show in Finder", systemImage: "folder")
+                }
+            }
         } else {
             Label {
                 HStack {
@@ -382,6 +389,13 @@ struct FileNodeView: View {
                     .foregroundColor(.secondary)
             }
             .tag(node)
+            .contextMenu {
+                Button {
+                    NSWorkspace.shared.activateFileViewerSelecting([node.url])
+                } label: {
+                    Label("Show in Finder", systemImage: "folder")
+                }
+            }
         }
     }
 }
