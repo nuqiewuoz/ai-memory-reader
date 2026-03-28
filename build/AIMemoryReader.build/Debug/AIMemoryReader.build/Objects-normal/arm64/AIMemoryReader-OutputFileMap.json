@@ -1,0 +1,179 @@
+{
+  "" : {
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReader-primary.dia",
+    "emit-module-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReader-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReader-primary-emit-module.dia",
+    "pch" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReader-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReader-primary.swiftdeps"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/App/AIMemoryReaderApp.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReaderApp.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReaderApp.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReaderApp.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReaderApp.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReaderApp.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReaderApp.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReaderApp.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AIMemoryReaderApp~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Models/AISource.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AISource.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AISource.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AISource.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AISource.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AISource.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AISource.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AISource.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AISource~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Models/AppState.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AppState.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AppState.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AppState.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AppState.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AppState.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AppState.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AppState.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/AppState~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Models/FileNode.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileNode.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileNode.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileNode.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileNode.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileNode.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileNode.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileNode.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileNode~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Utilities/FileTreeBuilder.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileTreeBuilder.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileTreeBuilder.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileTreeBuilder.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileTreeBuilder.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileTreeBuilder.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileTreeBuilder.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileTreeBuilder.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileTreeBuilder~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Utilities/FileWatcher.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileWatcher.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileWatcher.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileWatcher.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileWatcher.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileWatcher.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileWatcher.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileWatcher.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/FileWatcher~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Utilities/LocalImageProvider.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/LocalImageProvider.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/LocalImageProvider.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/LocalImageProvider.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/LocalImageProvider.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/LocalImageProvider.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/LocalImageProvider.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/LocalImageProvider.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/LocalImageProvider~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Utilities/MemoryReaderTheme.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MemoryReaderTheme.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MemoryReaderTheme.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MemoryReaderTheme.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MemoryReaderTheme.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MemoryReaderTheme.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MemoryReaderTheme.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MemoryReaderTheme.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MemoryReaderTheme~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Utilities/PDFExporter.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/PDFExporter.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/PDFExporter.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/PDFExporter.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/PDFExporter.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/PDFExporter.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/PDFExporter.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/PDFExporter.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/PDFExporter~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Utilities/SearchService.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SearchService.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SearchService.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SearchService.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SearchService.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SearchService.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SearchService.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SearchService.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SearchService~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Utilities/SplashCodeSyntaxHighlighter.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SplashCodeSyntaxHighlighter.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SplashCodeSyntaxHighlighter.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SplashCodeSyntaxHighlighter.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SplashCodeSyntaxHighlighter.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SplashCodeSyntaxHighlighter.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SplashCodeSyntaxHighlighter.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SplashCodeSyntaxHighlighter.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SplashCodeSyntaxHighlighter~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Views/ContentView.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Views/DetailView.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/DetailView.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/DetailView.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/DetailView.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/DetailView.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/DetailView.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/DetailView.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/DetailView.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/DetailView~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Views/MarkdownEditorView.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MarkdownEditorView.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MarkdownEditorView.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MarkdownEditorView.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MarkdownEditorView.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MarkdownEditorView.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MarkdownEditorView.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MarkdownEditorView.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/MarkdownEditorView~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Views/SidebarView.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SidebarView.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SidebarView.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SidebarView.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SidebarView.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SidebarView.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SidebarView.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SidebarView.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/SidebarView~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/AIMemoryReader/Sources/Views/TOCView.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/TOCView.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/TOCView.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/TOCView.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/TOCView.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/TOCView.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/TOCView.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/TOCView.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/TOCView~partial.swiftmodule"
+  },
+  "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/william/Projects/ai-memory-reader/build/AIMemoryReader.build/Debug/AIMemoryReader.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

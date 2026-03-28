@@ -85,6 +85,13 @@ struct MarkdownDetailView: View {
                 saveIfNeeded()
             }
         }
+        .onReceive(NotificationCenter.default.publisher(for: .exportPDF)) { _ in
+            if let content = rawContent {
+                let filename = fileNode.url.deletingPathExtension().lastPathComponent
+                let baseURL = fileNode.url.deletingLastPathComponent()
+                PDFExporter.exportToPDF(markdownText: content, defaultFilename: filename, baseURL: baseURL)
+            }
+        }
         .onChange(of: appState.pendingURLHeading) { _, heading in
             if let heading, !heading.isEmpty {
                 // Find matching TOC entry and scroll to it

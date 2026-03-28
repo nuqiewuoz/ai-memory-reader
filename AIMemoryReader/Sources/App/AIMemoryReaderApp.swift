@@ -2,6 +2,7 @@ import SwiftUI
 
 extension Notification.Name {
     static let editorManualSave = Notification.Name("editorManualSave")
+    static let exportPDF = Notification.Name("exportPDF")
 }
 
 @main
@@ -37,6 +38,13 @@ struct AIMemoryReaderApp: App {
                     NotificationCenter.default.post(name: .editorManualSave, object: nil)
                 }
                 .keyboardShortcut("s", modifiers: .command)
+
+                Divider()
+
+                Button("Export PDF…") {
+                    NotificationCenter.default.post(name: .exportPDF, object: nil)
+                }
+                .keyboardShortcut("p", modifiers: .command)
             }
 
             CommandGroup(after: .sidebar) {
