@@ -138,7 +138,6 @@ final class AppState {
         searchQuery = ""
         searchResults = []
         loadDirectory(source.url)
-        autoSelectTodayFile(for: source)
         startWatching(source.url)
     }
 
@@ -325,12 +324,6 @@ final class AppState {
         // Rebuild file tree
         rootNode = FileTreeBuilder.buildTree(at: rootURL)
         rootNode?.isExpanded = true
-
-        // Re-detect today file
-        if let sourceID = selectedSourceID,
-           let source = availableSources.first(where: { $0.id == sourceID }) {
-            autoSelectTodayFile(for: source)
-        }
 
         // Try to restore selection
         if let prevURL = previousSelectedURL,
