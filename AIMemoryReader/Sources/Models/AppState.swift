@@ -313,7 +313,11 @@ final class AppState {
 
     #if os(macOS)
     private func handleFileSystemChange() {
-        guard let rootURL else { return }
+        print("[AppState] handleFileSystemChange triggered")
+        guard let rootURL else {
+            print("[AppState] rootURL is nil, skipping refresh")
+            return
+        }
 
         // Remember current selection
         let previousSelectedURL = selectedFile?.url

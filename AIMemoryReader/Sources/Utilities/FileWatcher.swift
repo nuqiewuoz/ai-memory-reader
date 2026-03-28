@@ -15,7 +15,10 @@ final class FileWatcher: Sendable {
     /// Starts watching. Returns a stream reference that the caller must keep alive.
     /// Call `stopStream(_:)` to stop watching.
     func startStream() -> FSEventStreamRef? {
-        let pathsToWatch = [path] as CFArray
+        // Ensure path has trailing slash for FSEvents directory monitoring
+        let watchPath = path.hasSuffix("/") ? path : path + "/"
+        let pathsToWatch = [watchPath] as CFArray
+        print("[FileWatcher] Starting watch on: \(watchPath)")
 
         let queue = DispatchQueue(label: "com.aitools.filewatcher", qos: .utility)
 
@@ -24,9 +27,7 @@ final class FileWatcher: Sendable {
         guard let stream = FSEventStreamCreate(
             nil,
             { _, _, numEvents, eventPaths, eventFlags, _ in
-                // Notify on any change — file-level filtering (.md only) was too
-                // restrictive because directory-level events (create/delete) don't
-                // carry the child filename. We debounce on the receiving side.
+                print("[FileWatcher] FSEvent fired: \(numEvents) events")
                 if numEvents > 0 {
                     DispatchQueue.main.async {
                         NotificationCenter.default.post(name: .fileWatcherDidDetectChange, object: nil)
@@ -36,8 +37,8 @@ final class FileWatcher: Sendable {
             &context,
             pathsToWatch,
             FSEventStreamEventId(kFSEventStreamEventIdSinceNow),
-            1.0,
-            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagFileEvents)
+            0.5,
+            UInt32(kFSEventStreamCreateFlagUseCFTypes | kFSEventStreamCreateFlagNoDefer)
         ) else { return nil }
 
         FSEventStreamSetDispatchQueue(stream, queue)

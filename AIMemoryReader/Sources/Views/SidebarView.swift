@@ -42,6 +42,7 @@ struct SidebarView: View {
                     }
                 }
                 .listStyle(.sidebar)
+                .id(appState.fileChangeToken)
             } else {
                 emptyState
             }
