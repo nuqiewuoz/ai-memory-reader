@@ -35,13 +35,14 @@ struct AISource: Identifiable, Hashable {
         FileManager.default.fileExists(atPath: url.path(percentEncoded: false))
     }
 
-    /// Check if directory contains at least one .md file (recursive, shallow check)
-    var containsMarkdownFiles: Bool {
+    /// Check if directory contains at least one supported file (recursive, shallow check)
+    var containsSupportedFiles: Bool {
         let fm = FileManager.default
         let dirPath = url.path(percentEncoded: false)
         guard let enumerator = fm.enumerator(atPath: dirPath) else { return false }
         while let file = enumerator.nextObject() as? String {
-            if file.hasSuffix(".md") {
+            let ext = (file as NSString).pathExtension.lowercased()
+            if FileNode.supportedExtensions.contains(ext) {
                 return true
             }
         }
@@ -123,12 +124,12 @@ extension AISource {
         ),
     ]
 
-    /// Detect auto-discovered sources that exist and contain .md files
+    /// Detect auto-discovered sources that exist and contain supported files
     static func detectAvailable() -> [AISource] {
         #if os(iOS)
         return []
         #else
-        return allSources.filter { $0.exists && $0.containsMarkdownFiles }
+        return allSources.filter { $0.exists && $0.containsSupportedFiles }
         #endif
     }
 

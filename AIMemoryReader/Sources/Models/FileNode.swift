@@ -9,6 +9,15 @@ final class FileNode: Identifiable, Hashable {
     var children: [FileNode]?
     var isExpanded: Bool = false
 
+    static let supportedExtensions: Set<String> = ["md", "json"]
+
+    var isMarkdown: Bool { url.pathExtension.lowercased() == "md" }
+    var isJSON: Bool { url.pathExtension.lowercased() == "json" }
+
+    static func isSupportedFile(_ url: URL) -> Bool {
+        supportedExtensions.contains(url.pathExtension.lowercased())
+    }
+
     init(url: URL, isDirectory: Bool, children: [FileNode]? = nil) {
         self.id = url.path(percentEncoded: false)
         self.name = url.lastPathComponent

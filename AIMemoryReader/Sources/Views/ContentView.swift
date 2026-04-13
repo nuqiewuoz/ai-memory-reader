@@ -81,23 +81,20 @@ struct MacContentView: View {
             return
         }
 
-        // Filter to .md files only
-        let mdFiles = urls.filter { $0.pathExtension.lowercased() == "md" }
-        guard !mdFiles.isEmpty else { return }
+        // Filter to supported files only
+        let supportedFiles = urls.filter { FileNode.isSupportedFile($0) }
+        guard !supportedFiles.isEmpty else { return }
 
-        if mdFiles.count == 1 {
-            // Single .md file — open in single file mode
-            appState.openSingleFile(mdFiles[0])
+        if supportedFiles.count == 1 {
+            appState.openSingleFile(supportedFiles[0])
         } else {
-            // Multiple .md files — load the common parent directory
-            let parentDir = mdFiles[0].deletingLastPathComponent()
+            let parentDir = supportedFiles[0].deletingLastPathComponent()
             appState.selectedSourceID = "local"
             appState.isSingleFileMode = false
             appState.loadDirectory(parentDir)
 
-            // Auto-select the first dropped file
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                if let node = appState.findNode(url: mdFiles[0], in: appState.rootNode) {
+                if let node = appState.findNode(url: supportedFiles[0], in: appState.rootNode) {
                     appState.selectedFile = node
                 }
             }
@@ -161,7 +158,7 @@ struct iOSFileListView: View {
                     Text("No files loaded")
                         .font(.title3)
                         .foregroundStyle(.secondary)
-                    Text("Tap the folder icon to open a markdown file")
+                    Text("Tap the folder icon to open a file")
                         .font(.subheadline)
                         .foregroundStyle(.tertiary)
                 }
@@ -225,6 +222,7 @@ struct DocumentPickerView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
         let types: [UTType] = [
             UTType(filenameExtension: "md") ?? .plainText,
+            .json,
             .plainText
         ]
         let picker = UIDocumentPickerViewController(forOpeningContentTypes: types, asCopy: false)
@@ -329,12 +327,29 @@ struct iOSDetailView: View {
                 loadError = "Unable to decode file as UTF-8"
                 return
             }
-            rawContent = text
-            tocEntries = TOCParser.parse(text)
-            sections = MarkdownSplitter.split(text, entries: tocEntries)
+
+            if fileNode.isJSON {
+                let displayText = Self.prettyPrintJSON(text) ?? text
+                rawContent = displayText
+                tocEntries = []
+                sections = [MarkdownSection(id: "json-content", content: "```json\n\(displayText)\n```")]
+            } else {
+                rawContent = text
+                tocEntries = TOCParser.parse(text)
+                sections = MarkdownSplitter.split(text, entries: tocEntries)
+            }
         } catch {
             loadError = error.localizedDescription
         }
+    }
+
+    private static func prettyPrintJSON(_ text: String) -> String? {
+        guard let data = text.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed]),
+              let prettyData = try? JSONSerialization.data(withJSONObject: json, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]),
+              let prettyString = String(data: prettyData, encoding: .utf8)
+        else { return nil }
+        return prettyString
     }
 }
 

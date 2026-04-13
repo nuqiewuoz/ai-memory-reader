@@ -25,7 +25,7 @@ enum FileTreeBuilder {
                 }
                 .compactMap { childURL -> FileNode? in
                     let childIsDir = (try? childURL.resourceValues(forKeys: [.isDirectoryKey]).isDirectory) ?? false
-                    if !childIsDir && childURL.pathExtension.lowercased() != "md" {
+                    if !childIsDir && !FileNode.supportedExtensions.contains(childURL.pathExtension.lowercased()) {
                         return nil
                     }
                     return buildTree(at: childURL)

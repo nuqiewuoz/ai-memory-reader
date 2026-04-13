@@ -34,7 +34,7 @@ enum SearchService {
         return results
     }
 
-    /// Search all .md files under a root URL for the given query
+    /// Search all supported files under a root URL for the given query
     static func search(query: String, in rootURL: URL) -> [SearchResult] {
         guard !query.isEmpty else { return [] }
 
@@ -49,7 +49,7 @@ enum SearchService {
         ) else { return [] }
 
         for case let fileURL as URL in enumerator {
-            guard fileURL.pathExtension.lowercased() == "md" else { continue }
+            guard FileNode.supportedExtensions.contains(fileURL.pathExtension.lowercased()) else { continue }
 
             guard let data = try? Data(contentsOf: fileURL),
                   let content = String(data: data, encoding: .utf8)

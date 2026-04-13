@@ -194,7 +194,7 @@ struct SidebarView: View {
                 .foregroundColor(.secondary)
                 .font(.system(size: 12))
 
-            TextField(appState.isSingleFileMode ? "Find in file…" : "Search markdown files…", text: Bindable(appState).searchQuery)
+            TextField(appState.isSingleFileMode ? "Find in file…" : "Search files…", text: Bindable(appState).searchQuery)
                 .textFieldStyle(.plain)
                 .font(.system(size: 12))
                 .focused($isSearchFocused)
@@ -288,7 +288,7 @@ struct SearchResultRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 4) {
-                Image(systemName: "doc.text")
+                Image(systemName: result.fileNode.isJSON ? "curlybraces" : "doc.text")
                     .foregroundColor(.accentColor)
                     .font(.system(size: 11))
                 Text(result.fileNode.name)
@@ -385,7 +385,7 @@ struct FileNodeView: View {
                     }
                 }
             } icon: {
-                Image(systemName: "doc.text")
+                Image(systemName: node.isJSON ? "curlybraces" : "doc.text")
                     .foregroundColor(.secondary)
             }
             .tag(node)

@@ -20,7 +20,7 @@ struct DetailView: View {
             Image(systemName: "text.document")
                 .font(.system(size: 56))
                 .foregroundColor(.secondary.opacity(0.6))
-            Text("Select a markdown file to view")
+            Text("Select a file to view")
                 .font(.title2)
                 .foregroundColor(.secondary)
         }
@@ -107,7 +107,7 @@ struct MarkdownDetailView: View {
 
     private var titleBar: some View {
         HStack {
-            Image(systemName: "doc.text")
+            Image(systemName: fileNode.isJSON ? "curlybraces" : "doc.text")
                 .foregroundColor(.accentColor)
             Text(fileNode.name)
                 .font(.headline)
@@ -256,8 +256,13 @@ struct MarkdownDetailView: View {
             // Switching from Edit → Read: save first, then update rendered view
             saveIfNeeded()
             rawContent = editableContent
-            tocEntries = TOCParser.parse(editableContent)
-            sections = MarkdownSplitter.split(editableContent, entries: tocEntries)
+            if fileNode.isJSON {
+                tocEntries = []
+                sections = [MarkdownSection(id: "json-content", content: "```json\n\(editableContent)\n```")]
+            } else {
+                tocEntries = TOCParser.parse(editableContent)
+                sections = MarkdownSplitter.split(editableContent, entries: tocEntries)
+            }
         } else {
             // Switching from Read → Edit: load content into editor
             editableContent = rawContent ?? ""
@@ -358,13 +363,31 @@ struct MarkdownDetailView: View {
                 loadError = "Unable to decode file as UTF-8"
                 return
             }
-            rawContent = text
-            editableContent = text
-            tocEntries = TOCParser.parse(text)
-            sections = MarkdownSplitter.split(text, entries: tocEntries)
+
+            if fileNode.isJSON {
+                let displayText = Self.prettyPrintJSON(text) ?? text
+                rawContent = displayText
+                editableContent = displayText
+                tocEntries = []
+                sections = [MarkdownSection(id: "json-content", content: "```json\n\(displayText)\n```")]
+            } else {
+                rawContent = text
+                editableContent = text
+                tocEntries = TOCParser.parse(text)
+                sections = MarkdownSplitter.split(text, entries: tocEntries)
+            }
         } catch {
             loadError = error.localizedDescription
         }
+    }
+
+    private static func prettyPrintJSON(_ text: String) -> String? {
+        guard let data = text.data(using: .utf8),
+              let json = try? JSONSerialization.jsonObject(with: data, options: [.fragmentsAllowed]),
+              let prettyData = try? JSONSerialization.data(withJSONObject: json, options: [.prettyPrinted, .sortedKeys, .withoutEscapingSlashes]),
+              let prettyString = String(data: prettyData, encoding: .utf8)
+        else { return nil }
+        return prettyString
     }
 
     private func errorView(_ message: String) -> some View {

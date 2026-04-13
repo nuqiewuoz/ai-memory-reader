@@ -1,4 +1,5 @@
 import SwiftUI
+import UniformTypeIdentifiers
 
 @MainActor
 @Observable
@@ -146,9 +147,12 @@ final class AppState {
         let panel = NSOpenPanel()
         panel.canChooseDirectories = true
         panel.canChooseFiles = true
-        panel.allowedContentTypes = [.init(filenameExtension: "md")!]
+        panel.allowedContentTypes = [
+            .init(filenameExtension: "md")!,
+            .json
+        ]
         panel.allowsMultipleSelection = false
-        panel.message = "Select a folder or markdown file"
+        panel.message = "Select a folder or file"
         panel.prompt = "Open"
 
         if panel.runModal() == .OK, let url = panel.url {
@@ -167,7 +171,7 @@ final class AppState {
     }
     #endif
 
-    /// Open a single .md file directly without loading directory tree
+    /// Open a single file directly without loading directory tree
     func openSingleFile(_ url: URL) {
         selectedSourceID = "local"
         isSingleFileMode = true
