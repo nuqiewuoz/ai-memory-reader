@@ -55,8 +55,12 @@ struct MarkdownDetailView: View {
     // MARK: - Find in page
     @State private var isFindActive = false
     @State private var findQuery: String = ""
-    @State private var findMatches: [FindMatch] = []
     @State private var findCurrentIndex: Int = 0
+    /// Pre-rendered attributed document used when the find bar is open. We
+    /// re-render when the source or palette changes, not on every keystroke.
+    @State private var renderedForFind: ReadableMarkdownRenderer.Output?
+    /// NSRanges (in the rendered plain text) of all matches for the current query.
+    @State private var findMatchRanges: [NSRange] = []
 
     enum SaveState: Equatable {
         case idle
@@ -78,7 +82,7 @@ struct MarkdownDetailView: View {
                             recomputeFindMatches()
                         }
                     ),
-                    matchCount: findMatches.count,
+                    matchCount: findMatchRanges.count,
                     currentIndex: findCurrentIndex,
                     onPrevious: gotoPreviousMatch,
                     onNext: gotoNextMatch,
@@ -110,6 +114,18 @@ struct MarkdownDetailView: View {
         }
         .onChange(of: appState.findInFileToken) { _, _ in
             openFind()
+        }
+        .onChange(of: palette.isEyeCare) { _, _ in
+            // Palette shifted — rebuild the find-mode rendering so colors match.
+            if isFindActive, rawContent != nil {
+                ensureRenderedForFind()
+                recomputeFindMatches()
+            }
+        }
+        .onChange(of: fileNode.id) { _, _ in
+            // File changed — drop cached find rendering so the next find pass
+            // reparses from the new content.
+            renderedForFind = nil
         }
         .onDisappear {
             autoSaveTask?.cancel()
@@ -234,59 +250,10 @@ struct MarkdownDetailView: View {
         fileNode.url.deletingLastPathComponent()
     }
 
+    @ViewBuilder
     private var readView: some View {
-        let currentMatchSectionID: String? = findMatches.indices.contains(findCurrentIndex)
-            ? findMatches[findCurrentIndex].sectionID
-            : nil
-        let matchingSectionIDs: Set<String> = Set(findMatches.map(\.sectionID))
-
-        return HStack(spacing: 0) {
-            // Main markdown content
-            ScrollViewReader { proxy in
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 0) {
-                        ForEach(sections) { section in
-                            Markdown(section.content)
-                                .markdownTheme(.memoryReader(palette: palette))
-                                .markdownCodeSyntaxHighlighter(.splash)
-                                .markdownImageProvider(.localFile(basePath: fileBaseURL))
-                                .textSelection(.enabled)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal, 24)
-                                .padding(.vertical, 2)
-                                .background(findHighlightBackground(for: section.id,
-                                                                     current: currentMatchSectionID,
-                                                                     all: matchingSectionIDs))
-                                .id(section.id)
-                                .onAppear {
-                                    if tocEntries.contains(where: { $0.id == section.id }) {
-                                        activeEntryID = section.id
-                                    }
-                                }
-                        }
-                    }
-                    .padding(.vertical, 16)
-                    .environment(\.openURL, OpenURLAction { url in
-                        return Self.handleLocalLink(url: url, baseURL: fileBaseURL)
-                    })
-                }
-                .background(palette.isEyeCare ? AnyShapeStyle(palette.background) : AnyShapeStyle(Color.clear))
-                .onChange(of: scrollTarget) { _, newValue in
-                    if let target = newValue {
-                        withAnimation(.easeInOut(duration: 0.3)) {
-                            proxy.scrollTo(target, anchor: .top)
-                        }
-                        scrollTarget = nil
-                    }
-                }
-                .onChange(of: findCurrentIndex) { _, _ in
-                    if let id = currentMatchSectionID {
-                        withAnimation(.easeInOut(duration: 0.25)) {
-                            proxy.scrollTo(id, anchor: .center)
-                        }
-                    }
-                }
-            }
+        HStack(spacing: 0) {
+            mainReadingPane
 
             // TOC sidebar on right
             if showTOC && !tocEntries.isEmpty {
@@ -302,21 +269,58 @@ struct MarkdownDetailView: View {
         }
     }
 
-    /// Background for a section when find-in-page is active.
     @ViewBuilder
-    private func findHighlightBackground(for sectionID: String,
-                                          current: String?,
-                                          all: Set<String>) -> some View {
-        if sectionID == current {
-            RoundedRectangle(cornerRadius: 6)
-                .fill(palette.findCurrent)
-                .padding(.horizontal, 10)
-        } else if all.contains(sectionID) {
-            RoundedRectangle(cornerRadius: 6)
-                .fill(palette.findMatch)
-                .padding(.horizontal, 10)
+    private var mainReadingPane: some View {
+        if isFindActive, let rendered = renderedForFind {
+            // When the find bar is open, switch to NSTextView-backed rendering
+            // so matches can be highlighted at character granularity.
+            FindableReadableView(
+                baseAttributed: rendered.attributed,
+                matchRanges: findMatchRanges,
+                currentIndex: findCurrentIndex,
+                palette: palette
+            )
+            .background(palette.isEyeCare
+                        ? AnyShapeStyle(palette.background)
+                        : AnyShapeStyle(Color.clear))
         } else {
-            Color.clear
+            ScrollViewReader { proxy in
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 0) {
+                        ForEach(sections) { section in
+                            Markdown(section.content)
+                                .markdownTheme(.memoryReader(palette: palette))
+                                .markdownCodeSyntaxHighlighter(.splash)
+                                .markdownImageProvider(.localFile(basePath: fileBaseURL))
+                                .textSelection(.enabled)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                                .padding(.horizontal, 24)
+                                .padding(.vertical, 2)
+                                .id(section.id)
+                                .onAppear {
+                                    if tocEntries.contains(where: { $0.id == section.id }) {
+                                        activeEntryID = section.id
+                                    }
+                                }
+                        }
+                    }
+                    .padding(.vertical, 16)
+                    .environment(\.openURL, OpenURLAction { url in
+                        return Self.handleLocalLink(url: url, baseURL: fileBaseURL)
+                    })
+                }
+                .background(palette.isEyeCare
+                            ? AnyShapeStyle(palette.background)
+                            : AnyShapeStyle(Color.clear))
+                .onChange(of: scrollTarget) { _, newValue in
+                    if let target = newValue {
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            proxy.scrollTo(target, anchor: .top)
+                        }
+                        scrollTarget = nil
+                    }
+                }
+            }
         }
     }
 
@@ -401,6 +405,7 @@ struct MarkdownDetailView: View {
             NotificationCenter.default.post(name: .editorShowFindBar, object: nil)
             return
         }
+        ensureRenderedForFind()
         isFindActive = true
         recomputeFindMatches()
     }
@@ -408,33 +413,53 @@ struct MarkdownDetailView: View {
     private func closeFind() {
         isFindActive = false
         findQuery = ""
-        findMatches = []
+        findMatchRanges = []
         findCurrentIndex = 0
+        renderedForFind = nil
+    }
+
+    /// Build the `ReadableMarkdownRenderer` output lazily — only when the
+    /// find bar opens — and reuse it across keystrokes.
+    private func ensureRenderedForFind() {
+        guard let raw = rawContent else { return }
+        renderedForFind = ReadableMarkdownRenderer.render(raw, palette: palette)
     }
 
     private func recomputeFindMatches() {
-        guard isFindActive, let raw = rawContent, !findQuery.isEmpty else {
-            findMatches = []
+        guard isFindActive,
+              let rendered = renderedForFind,
+              !findQuery.isEmpty else {
+            findMatchRanges = []
             findCurrentIndex = 0
             return
         }
-        let matches = FindMatcher.compute(in: raw, query: findQuery, sections: sections)
-        findMatches = matches
-        if matches.isEmpty {
+        let ns = rendered.plain as NSString
+        let fullLength = ns.length
+        var ranges: [NSRange] = []
+        var start = 0
+        while start < fullLength {
+            let searchRange = NSRange(location: start, length: fullLength - start)
+            let r = ns.range(of: findQuery, options: .caseInsensitive, range: searchRange)
+            guard r.location != NSNotFound else { break }
+            ranges.append(r)
+            start = r.location + max(r.length, 1)
+        }
+        findMatchRanges = ranges
+        if ranges.isEmpty {
             findCurrentIndex = 0
         } else {
-            findCurrentIndex = min(findCurrentIndex, matches.count - 1)
+            findCurrentIndex = min(findCurrentIndex, ranges.count - 1)
         }
     }
 
     private func gotoNextMatch() {
-        guard !findMatches.isEmpty else { return }
-        findCurrentIndex = (findCurrentIndex + 1) % findMatches.count
+        guard !findMatchRanges.isEmpty else { return }
+        findCurrentIndex = (findCurrentIndex + 1) % findMatchRanges.count
     }
 
     private func gotoPreviousMatch() {
-        guard !findMatches.isEmpty else { return }
-        findCurrentIndex = (findCurrentIndex - 1 + findMatches.count) % findMatches.count
+        guard !findMatchRanges.isEmpty else { return }
+        findCurrentIndex = (findCurrentIndex - 1 + findMatchRanges.count) % findMatchRanges.count
     }
 
     // MARK: - Link Handling

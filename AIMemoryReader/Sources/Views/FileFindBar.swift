@@ -2,94 +2,6 @@
 import AppKit
 import SwiftUI
 
-// MARK: - FindMatch
-
-/// One occurrence of the find query in the loaded document.
-struct FindMatch: Identifiable, Equatable {
-    let id: Int               // global ordinal, unique
-    let sectionID: String     // MarkdownSection.id the hit lives in
-    let lineNumber: Int       // 1-based line in the whole document
-    let range: NSRange        // range in the raw document text
-}
-
-// MARK: - Compute matches for a document
-
-enum FindMatcher {
-    /// Scan `text` for all occurrences of `query` (case-insensitive).
-    /// `sections` is used to tag each match with its owning section id so the
-    /// read view can scroll to and highlight that section.
-    static func compute(
-        in text: String,
-        query: String,
-        sections: [MarkdownSection]
-    ) -> [FindMatch] {
-        guard !query.isEmpty, !text.isEmpty else { return [] }
-
-        // Pre-compute absolute character range for each section.
-        // Matches the splitter's behaviour: lines joined by "\n".
-        var sectionStarts: [(id: String, start: Int, length: Int)] = []
-        var cursor = 0
-        for (i, section) in sections.enumerated() {
-            let length = (section.content as NSString).length
-            sectionStarts.append((section.id, cursor, length))
-            cursor += length
-            // MarkdownSplitter joins sections back with implicit "\n" between
-            // lines within a section; between sections a newline separates them.
-            if i < sections.count - 1 { cursor += 1 }
-        }
-
-        let ns = text as NSString
-        var results: [FindMatch] = []
-        var searchStart = 0
-        var ordinal = 0
-
-        while searchStart < ns.length {
-            let remaining = NSRange(location: searchStart, length: ns.length - searchStart)
-            let found = ns.range(of: query, options: .caseInsensitive, range: remaining)
-            guard found.location != NSNotFound else { break }
-
-            let lineNumber = lineNumberForLocation(found.location, in: ns)
-            let sectionID = sectionIDContaining(location: found.location, in: sectionStarts)
-                ?? sections.first?.id
-                ?? "preamble"
-
-            results.append(FindMatch(
-                id: ordinal,
-                sectionID: sectionID,
-                lineNumber: lineNumber,
-                range: found
-            ))
-            ordinal += 1
-            // Advance; allow overlapping-insensitive by stepping past the match.
-            searchStart = found.location + max(found.length, 1)
-        }
-
-        return results
-    }
-
-    private static func lineNumberForLocation(_ location: Int, in ns: NSString) -> Int {
-        var count = 1
-        let prefixRange = NSRange(location: 0, length: location)
-        ns.enumerateSubstrings(in: prefixRange, options: [.byLines, .substringNotRequired]) { _, _, _, _ in
-            count += 1
-        }
-        return count
-    }
-
-    private static func sectionIDContaining(
-        location: Int,
-        in starts: [(id: String, start: Int, length: Int)]
-    ) -> String? {
-        for s in starts {
-            if location >= s.start && location < s.start + s.length {
-                return s.id
-            }
-        }
-        // Location past last section → return the last one.
-        return starts.last?.id
-    }
-}
-
 // MARK: - FileFindBar
 
 /// In-page find bar shown above the read view when ⌘F is pressed.
@@ -201,8 +113,6 @@ struct EscapableTextField: NSViewRepresentable {
         field.isContinuous = true            // fire action on every keystroke
         field.target = context.coordinator
         field.action = #selector(Coordinator.textChangedAction(_:))
-        // Separate action for Return — NSTextField sends action on Enter as well,
-        // but with continuous+action we need a distinct hook for submit.
         field.cell?.sendsActionOnEndEditing = false
         field.onEscape = onEscape
         field.onSubmit = onSubmit
@@ -210,6 +120,9 @@ struct EscapableTextField: NSViewRepresentable {
         context.coordinator.onTextChanged = { [binding = _text] newValue in
             binding.wrappedValue = newValue
         }
+        // Also observe text-change notifications so paste / delete / IME
+        // commits surface, not just typed characters.
+        context.coordinator.attach(field: field)
         return field
     }
 
@@ -232,10 +145,29 @@ struct EscapableTextField: NSViewRepresentable {
     @MainActor
     final class Coordinator: NSObject {
         var onTextChanged: (String) -> Void = { _ in }
+        private var observation: NSObjectProtocol?
+
+        func attach(field: NSTextField) {
+            if let obs = observation {
+                NotificationCenter.default.removeObserver(obs)
+            }
+            observation = NotificationCenter.default.addObserver(
+                forName: NSControl.textDidChangeNotification,
+                object: field,
+                queue: .main
+            ) { [weak self] note in
+                guard let sender = note.object as? NSTextField else { return }
+                let value = sender.stringValue
+                Task { @MainActor [weak self] in
+                    self?.onTextChanged(value)
+                }
+            }
+        }
 
         @objc func textChangedAction(_ sender: NSTextField) {
             onTextChanged(sender.stringValue)
         }
+
     }
 
     /// NSTextField subclass that reports Esc, Return, and ⇧Return up to SwiftUI.
